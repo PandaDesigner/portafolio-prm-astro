@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ExperienceSection from '../components/sections/ExperienceSection.astro';
+import SkillsSection from '../components/sections/SkillsSection.astro';
+import ProjectsSection from '../components/sections/ProjectsSection.astro';
+import ContactSection from '../components/sections/ContactSection.astro';
+import { LocalPortfolioRepository } from '../core/infrastructure/local-portfolio-repository';
+import { GitHubRepositoryAdapter } from '../core/infrastructure/github-repository-adapter';
+import { BuildHomePageUseCase } from '../core/application/build-home-page';
+
+const repository = new LocalPortfolioRepository();
+const github = new GitHubRepositoryAdapter(import.meta.env.PUBLIC_GITHUB_USERNAME ?? 'PandaDesigner', await repository.loadCuratedProjects());
+const model = await new BuildHomePageUseCase(repository, github).execute();
+
+const portraitSrc =
+  '/enhanced_manos_en_los_bolsillos-_autoridad_relajada_un_retrato_editorial_cinematogrfico_hiperrealista_de_la__67xrrz909a5z5w1okvhc.png';
+---
+
+<BaseLayout>
+  <!-- Hero -->
+  <div id="top" class="mx-auto max-w-6xl px-6 pb-8 pt-10 md:pb-12 md:pt-14">
+    <section class="reveal reveal-up overflow-hidden rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl">
+      <div class="grid items-center gap-10 p-6 md:grid-cols-[1.05fr_0.95fr] md:p-10">
+        <div class="max-w-4xl">
+          <p class="mb-5 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.28em] text-slate-300 backdrop-blur-xl">
+            {model.profile.location}
+          </p>
+          <h1 class="max-w-4xl text-5xl leading-[0.95] text-white md:text-7xl" style="font-family: var(--font-display);">
+            {model.profile.name}
+          </h1>
+          <p class="mt-5 text-lg font-medium text-sky-200 md:text-xl">{model.profile.role}</p>
+          <p class="mt-6 max-w-2xl text-base leading-8 text-slate-200 md:text-lg">{model.profile.headline}</p>
+          <p class="mt-4 max-w-2xl text-sm leading-7 text-slate-400 md:text-base">{model.profile.summary}</p>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a
+              href="#contact"
+              class="rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:-translate-y-0.5"
+            >
+              Contactar
+            </a>
+            <a
+              href="#projects"
+              class="rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white backdrop-blur-xl transition hover:-translate-y-0.5 hover:bg-white/10"
+            >
+              Ver proyectos
+            </a>
+          </div>
+
+          <div class="mt-10 grid gap-3 sm:grid-cols-3">
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <p class="text-xs uppercase tracking-[0.28em] text-slate-400">Enfoque</p>
+              <p class="mt-2 text-sm font-semibold text-white">Producto + UX</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <p class="text-xs uppercase tracking-[0.28em] text-slate-400">Stack</p>
+              <p class="mt-2 text-sm font-semibold text-white">React / Next.js</p>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <p class="text-xs uppercase tracking-[0.28em] text-slate-400">Entrega</p>
+              <p class="mt-2 text-sm font-semibold text-white">Rápida y limpia</p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="relative">
+          <div class="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-950/50 p-3">
+            <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(122,197,255,0.24),transparent_38%),radial-gradient(circle_at_bottom_left,rgba(200,140,255,0.18),transparent_34%)]" />
+            <img
+              src={portraitSrc}
+              alt={`Foto de ${model.profile.name}`}
+              loading="eager"
+              decoding="async"
+              class="h-[420px] w-full rounded-[1.45rem] object-cover md:h-[520px]"
+            />
+            <div class="pointer-events-none absolute inset-0 rounded-[1.75rem] bg-[linear-gradient(180deg,rgba(0,0,0,0)_25%,rgba(0,0,0,0.65)_92%)]" />
+
+            <div class="absolute bottom-4 left-4 right-4 grid gap-3 md:grid-cols-2">
+              <div class="rounded-2xl border border-white/10 bg-slate-950/55 p-4 backdrop-blur-xl">
+                <p class="text-xs uppercase tracking-[0.28em] text-slate-300">Principios</p>
+                <ul class="mt-3 space-y-2 text-sm leading-7 text-slate-100">
+                  <li>UX/UI con criterio.</li>
+                  <li>Arquitectura clara.</li>
+                  <li>Performance real.</li>
+                </ul>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-slate-950/55 p-4 backdrop-blur-xl">
+                <p class="text-xs uppercase tracking-[0.28em] text-slate-300">Especialidad</p>
+                <p class="mt-3 text-sm leading-7 text-slate-100">
+                  Frontend con foco en interfaces rápidas, consistentes y listas para escalar.
+                </p>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </div>
+
+  <!-- About -->
+  <section id="about" class="reveal reveal-left mx-auto max-w-6xl px-6 py-14 md:py-20">
+    <div class="grid gap-8 md:grid-cols-[0.9fr_1.1fr] md:items-start">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.28em] text-sky-300/80">About</p>
+        <h2 class="mt-3 text-3xl text-white md:text-5xl" style="font-family: var(--font-display);">Frontend con criterio de producto.</h2>
+      </div>
+      <p class="text-base leading-8 text-slate-300 md:text-lg">
+        Me enfoco en interfaces que combinan narrativa visual, velocidad de carga y estructura técnica sana. La idea es simple: que el portfolio explique valor en segundos y deje una buena impresión en profundidad.
+      </p>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <div class="reveal reveal-up">
+    <ExperienceSection experiences={model.experiences} />
+  </div>
+
+  <!-- Skills -->
+  <div class="reveal reveal-up">
+    <SkillsSection skills={model.skills} />
+  </div>
+
+  <!-- Projects -->
+  <div class="reveal reveal-up">
+    <ProjectsSection projects={model.projects} />
+  </div>
+
+  <!-- Contact -->
+  <div class="reveal reveal-up">
+    <ContactSection contacts={model.contacts} />
+  </div>
+</BaseLayout>

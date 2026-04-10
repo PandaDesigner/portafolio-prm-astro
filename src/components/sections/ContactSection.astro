@@ -1,0 +1,38 @@
+---
+import SectionHeading from '../../components/SectionHeading.astro';
+import type { ContactChannel } from '../../core/domain/contact-channel';
+
+const { contacts } = Astro.props as { contacts: ContactChannel[] };
+---
+
+<section id="contact" class="mx-auto max-w-6xl px-6 py-20 md:py-28">
+  <SectionHeading
+    eyebrow="Contacto"
+    title="Si hay una conversación buena, que arranque acá"
+    description="Abierto a roles frontend, producto, UX engineering y equipos que cuiden la calidad de la interfaz de verdad."
+  />
+
+  <div class="reveal mt-12 rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl md:p-8">
+    <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div>
+        <p class="text-sm uppercase tracking-[0.22em] text-slate-400">Disponible para</p>
+        <p class="mt-2 text-2xl text-white" style="font-family: var(--font-display);">Oportunidades, proyectos y charlas técnicas.</p>
+      </div>
+      <a href="mailto:prfmaetre@gmail.com" class="inline-flex rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:-translate-y-0.5">
+        Escribir email
+      </a>
+    </div>
+
+    <div class="mt-8 flex flex-wrap gap-3">
+      {contacts.map((contact, index) => (
+        <a 
+          href={contact.href} 
+          class="reveal rounded-full border border-white/10 px-4 py-2 text-sm text-slate-200 transition hover:border-sky-300/30 hover:bg-white/10"
+          style={`transition-delay: ${(index + 1) * 80}ms`}
+        >
+          {contact.label}
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

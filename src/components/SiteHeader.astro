@@ -1,0 +1,35 @@
+---
+const links = [
+  ['About', '#about'],
+  ['Experience', '#experience'],
+  ['Projects', '#projects'],
+  ['Contact', '#contact'],
+] as const;
+
+const portraitSrc =
+  '/enhanced_manos_en_los_bolsillos-_autoridad_relajada_un_retrato_editorial_cinematogrfico_hiperrealista_de_la__67xrrz909a5z5w1okvhc.png';
+---
+
+<header class="sticky top-0 z-30 border-b border-white/10 bg-slate-950/35 backdrop-blur-2xl">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <a href="#top" class="flex items-center gap-3 text-sm font-semibold text-white">
+      <span class="relative grid h-10 w-10 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+        <img
+          src={portraitSrc}
+          alt="Pedro Fernández"
+          loading="eager"
+          decoding="async"
+          class="h-full w-full object-cover"
+        />
+        <span class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.16),transparent_55%)]" />
+      </span>
+      <span class="hidden sm:block">Pedro Fernández</span>
+    </a>
+
+    <nav class="hidden gap-6 text-sm text-slate-300 md:flex">
+      {links.map(([label, href]) => (
+        <a class="transition hover:text-white" href={href}>{label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
