@@ -7,6 +7,7 @@ import ProjectCard from './ProjectCard.astro';
 import SoftwareGrid from './SoftwareGrid.astro';
 import ContactSectionRedesign from './ContactSectionRedesign.astro';
 import SkillBar from './SkillBar.astro';
+import PDFGeneratorButton from './PDFGeneratorButton.astro';
 import { LocalPortfolioRepository } from '../core/infrastructure/local-portfolio-repository';
 import { GitHubRepositoryAdapter } from '../core/infrastructure/github-repository-adapter';
 import { BuildHomePageUseCase } from '../core/application/build-home-page';
@@ -173,4 +174,7 @@ const technicalSkills = [
       </div>
     </div>
   </main>
+
+  <!-- Botón de PDF -->
+  <PDFGeneratorButton lang={lang} />
 </BaseLayout>
