@@ -32,36 +32,81 @@ const loadingText = lang === 'es' ? 'Generando...' : 'Generating...';
   
   if (btn && btnText) {
     btn.addEventListener('click', async () => {
-      // Obtener el idioma actual de la URL
       const currentLang = window.location.pathname.startsWith('/en') ? 'en' : 'es';
       const originalText = btn.dataset.text || (currentLang === 'en' ? 'Download PDF' : 'Descargar PDF');
       const loadingText = btn.dataset.loading || (currentLang === 'en' ? 'Generating...' : 'Generando...');
       
-      // Cambiar estado a cargando
       btnText.textContent = loadingText;
       btn.disabled = true;
       btn.classList.add('opacity-75', 'cursor-not-allowed');
       
       try {
         const filename = currentLang === 'en' ? 'Pedro-Fernandez-Portfolio.pdf' : 'Pedro-Fernandez-Portafolio.pdf';
-        
-        // Elemento a convertir (todo el main content)
         const element = document.querySelector('main');
         
         if (!element) {
           throw new Error('Content not found');
         }
 
-        // Configuración de html2pdf
+        // Crear clon para manipulación
+        const wrapper = document.createElement('div');
+        wrapper.style.position = 'absolute';
+        wrapper.style.left = '-9999px';
+        wrapper.style.width = '1200px';
+        wrapper.style.backgroundColor = '#0f172a';
+        document.body.appendChild(wrapper);
+
+        const clone = element.cloneNode(true) as HTMLElement;
+        clone.style.backgroundColor = '#0f172a';
+        
+        // Eliminar elementos con SVGs que puedan causar problemas con oklab
+        const svgs = clone.querySelectorAll('svg');
+        svgs.forEach(svg => {
+          // Preservar el SVG pero asegurar que no tenga estilos problemáticos
+          svg.style.fill = 'currentColor';
+        });
+        
+        // Aplicar estilos inline conocidos y seguros
+        const allElements = clone.querySelectorAll('*');
+        const safeColors: Record<string, string> = {
+          'bg-[#1a202c]': '#1a202c',
+          'bg-[#7ac5ff]': '#7ac5ff',
+          'bg-[#0f172a]': '#0f172a',
+          'text-white': '#ffffff',
+          'text-slate-300': '#cbd5e1',
+          'text-slate-400': '#94a3b8',
+          'text-sky-200': '#bae6fd',
+          'text-[#7ac5ff]': '#7ac5ff',
+          'border-[#7ac5ff]': '#7ac5ff',
+        };
+        
+        allElements.forEach(el => {
+          const htmlEl = el as HTMLElement;
+          const classes = htmlEl.className.split(' ');
+          classes.forEach(cls => {
+            if (safeColors[cls]) {
+              if (cls.startsWith('bg-')) htmlEl.style.backgroundColor = safeColors[cls];
+              if (cls.startsWith('text-')) htmlEl.style.color = safeColors[cls];
+              if (cls.startsWith('border-')) htmlEl.style.borderColor = safeColors[cls];
+            }
+          });
+        });
+        
+        wrapper.appendChild(clone);
+        
+        // Configuración optimizada
         const opt = {
           margin: [10, 10, 10, 10] as [number, number, number, number],
           filename: filename,
-          image: { type: 'jpeg' as const, quality: 0.98 },
+          image: { type: 'jpeg' as const, quality: 0.95 },
           html2canvas: {
-            scale: 2,
+            scale: 1.5,
             useCORS: true,
             logging: false,
-            letterRendering: true
+            letterRendering: true,
+            backgroundColor: '#0f172a',
+            removeContainer: true,
+            foreignObjectRendering: false as boolean,
           },
           jsPDF: {
             unit: 'mm',
@@ -69,18 +114,20 @@ const loadingText = lang === 'es' ? 'Generando...' : 'Generating...';
             orientation: 'portrait' as const
           },
           pagebreak: {
-            mode: ['avoid-all', 'css', 'legacy'] as const
+            mode: ['css', 'legacy'] as const,
+            avoid: ['img', 'svg', '.reveal']
           }
         };
 
-        // Generar PDF
-        await html2pdf().set(opt).from(element).save();
+        await html2pdf().set(opt).from(wrapper).save();
+        
+        // Limpieza
+        document.body.removeChild(wrapper);
         
       } catch (error) {
         console.error('Error generating PDF:', error);
         alert(currentLang === 'en' ? 'Error generating PDF. Please try again.' : 'Error al generar el PDF. Inténtalo de nuevo.');
       } finally {
-        // Restaurar botón
         btnText.textContent = originalText;
         btn.disabled = false;
         btn.classList.remove('opacity-75', 'cursor-not-allowed');
