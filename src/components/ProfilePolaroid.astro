@@ -1,0 +1,42 @@
+---
+/**
+ * ProfilePolaroid Component
+ * Display an image in a polaroid-style frame with a floating animation.
+ */
+---
+
+<div class="profile-polaroid-container relative max-w-lg mx-auto lg:mx-0">
+  <div class="polaroid-frame relative transition-all duration-500 hover:scale-105">
+    <div class="relative overflow-hidden flex items-center justify-center">
+      <img 
+        src="/img-prm.png" 
+        alt="Profile Photo" 
+        class="w-full h-auto object-contain"
+      />
+    </div>
+  </div>
+</div>
+
+<style>
+  .profile-polaroid-container {
+    perspective: 1000px;
+  }
+
+  .polaroid-frame {
+    transform: rotate(-3deg);
+    animation: floating 6s ease-in-out infinite;
+  }
+
+  @keyframes floating {
+    0% {
+      transform: rotate(-3deg) translateY(0px) translateX(0px);
+    }
+    50% {
+      transform: rotate(-1deg) translateY(-15px) translateX(5px);
+    }
+    100% {
+      transform: rotate(-3deg) translateY(0px) translateX(0px);
+    }
+  }
+
+</style>

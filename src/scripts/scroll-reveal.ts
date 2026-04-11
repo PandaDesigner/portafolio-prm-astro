@@ -14,22 +14,33 @@ function initScrollReveal() {
 
   const observerOptions: IntersectionObserverInit = {
     root: null,
-    // Reveal a bit before it fully enters viewport (-10% from bottom)
-    rootMargin: '0px 0px -10% 0px',
-    threshold: 0.1, // Slightly higher threshold for more intentional feel
+    // Reveal at the middle of the screen (50% from bottom)
+    rootMargin: '0px 0px -50% 0px',
+    threshold: 0, 
   };
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
+      // isIntersecting will be true if any part of the element enters the top 50% of the viewport 
+      // because of the negative rootMargin
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        // We only reveal once by default
         observer.unobserve(entry.target);
       }
     });
   }, observerOptions);
 
-  reveals.forEach(el => observer.observe(el));
+  reveals.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    const viewpointMiddle = window.innerHeight * 0.5;
+
+    // If the element is already above the midpoint or visible on load, show it immediately
+    if (rect.top < viewpointMiddle) {
+      el.classList.add('visible');
+    } else {
+      observer.observe(el);
+    }
+  });
 }
 
 // Support both standard load and Astro View Transitions

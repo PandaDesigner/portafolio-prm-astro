@@ -1,0 +1,47 @@
+---
+/**
+ * HandmadeTimeline Component
+ * A vertical timeline with a hand-drawn feel.
+ */
+interface Props {
+  items: Array<{
+    period: string;
+    title: string;
+    subtitle: string;
+    description: string;
+  }>;
+  title: string;
+}
+
+const { items, title } = Astro.props;
+---
+
+<div class="timeline-container mt-10">
+  <h2 class="text-3xl font-bold text-white mb-8" style="font-family: 'Playfair Display', serif;">
+    {title}
+  </h2>
+
+  <div class="relative ml-4 border-l-2 border-white/20 pl-8 space-y-12">
+    {items.map((item) => (
+      <div class="relative">
+        <!-- Timeline dot (handmade look) -->
+        <div class="absolute -left-[41px] top-1 w-5 h-5 rounded-full bg-white border-4 border-[#0d1220] ring-2 ring-white/10"></div>
+        
+        <div class="reveal">
+          <span class="text-xs uppercase tracking-widest text-sky-400 font-bold">{item.period}</span>
+          <h3 class="text-xl text-white mt-1 font-semibold">{item.title}</h3>
+          <p class="text-sm text-sky-200/80 mb-3">{item.subtitle}</p>
+          <p class="text-base text-slate-400 leading-relaxed max-w-xl">{item.description}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .timeline-container {
+    /* Subtle background grid pattern for paper feel */
+    background-image: var(--paper-grid);
+    background-size: 32px 32px;
+  }
+</style>

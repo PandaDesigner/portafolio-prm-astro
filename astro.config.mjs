@@ -3,7 +3,13 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://portfolio.local',
-  integrations: [],
+  i18n: {
+    defaultLocale: 'es',
+    locales: ['es', 'en'],
+    routing: {
+      prefixDefault: false,
+    },
+  },
   vite: {
     plugins: [tailwindcss()],
   },

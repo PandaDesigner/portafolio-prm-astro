@@ -1,17 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Sora:wght@400;500;600;700;800&display=swap');
 @import 'tailwindcss';
 
 :root {
-  --bg: 13 18 31;
-  --bg-elevated: 17 24 43;
-  --surface: 23 33 56;
+  --bg: 13 18 31; /* Original dark background */
+  --bg-scrapbook: 20 25 35;
   --text: 244 247 252;
   --muted: 165 178 204;
   --accent: 122 197 255;
-  --accent-2: 200 140 255;
-  --border: 255 255 255 / 0.08;
-  --font-display: 'Sora', sans-serif;
+  --font-display: 'Playfair Display', serif;
   --font-body: 'Manrope', sans-serif;
+  --paper-grid: linear-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.05) 1px, transparent 1px);
 }
 
 html {

@@ -1,0 +1,49 @@
+---
+interface Props {
+  label: string;
+  percentage: number;
+  isFull?: boolean;
+}
+
+const { label, percentage, isFull = percentage === 100 } = Astro.props;
+
+// Subtle random rotation for the "hand-drawn" look
+const rotation = (Math.random() * 1.5 - 0.75).toFixed(2);
+---
+
+<div class="space-y-1.5 group">
+  <div class="flex justify-between items-end px-1">
+    <span class="text-lg font-bold text-white/90" style="font-family: var(--font-display);">
+      {label}
+    </span>
+    <span class={`text-xs font-mono font-bold tracking-tighter ${isFull ? 'text-[#7ac5ff]' : 'text-slate-500'}`}>
+      {isFull ? 'MASTERY' : `${percentage}%`}
+    </span>
+  </div>
+  
+  <div 
+    class="h-2.5 w-full bg-[#1a202c] border border-white/5 rounded-sm overflow-hidden relative"
+    style={`transform: rotate(${rotation}deg);`}
+  >
+    <!-- Background texture -->
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 8px 8px;"></div>
+    
+    <div 
+      class={`h-full transition-all duration-1000 ease-out relative ${isFull ? 'bg-[#7ac5ff] shadow-[0_0_15px_rgba(122,197,255,0.3)]' : 'bg-slate-600'}`}
+      style={`width: ${percentage}%`}
+    >
+      <!-- Marker highlight effect -->
+      <div class="absolute inset-0 bg-white/10 w-full h-1/2"></div>
+      
+      {isFull && (
+        <div class="absolute inset-y-0 right-0 w-8 bg-gradient-to-r from-transparent to-white/20 animate-pulse"></div>
+      )}
+    </div>
+  </div>
+</div>
+
+<style>
+  div {
+    will-change: transform;
+  }
+</style>

@@ -1,0 +1,31 @@
+---
+import { languages } from '../i18n/ui';
+import { getLangFromUrl, useTranslatedPath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const translatePath = useTranslatedPath(lang);
+---
+
+<div class="flex items-center gap-1 bg-white/5 p-1 rounded-full border border-white/10 ml-4">
+  {Object.entries(languages).map(([code, label]) => {
+    const isActive = lang === code;
+    return (
+      <a
+        href={code === 'es' ? '/' : `/${code}/`}
+        class={`px-3 py-1 text-[10px] uppercase font-bold tracking-widest rounded-full transition-all duration-300 ${
+          isActive 
+            ? 'bg-slate-950 text-[#7ac5ff] shadow-inner' 
+            : 'text-slate-400 hover:text-white'
+        }`}
+      >
+        {label}
+      </a>
+    );
+  })}
+</div>
+
+<style>
+  a {
+    font-family: var(--font-body);
+  }
+</style>
