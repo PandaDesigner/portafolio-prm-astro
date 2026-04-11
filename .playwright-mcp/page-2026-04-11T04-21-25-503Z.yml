@@ -1,0 +1,232 @@
+- generic [active] [ref=e1]:
+  - link "Saltar al contenido" [ref=e2] [cursor=pointer]:
+    - /url: "#main"
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - link "Pedro Fernández" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - img "Pedro Fernández" [ref=e8]
+        - generic [ref=e10]:
+          - link "es" [ref=e11] [cursor=pointer]:
+            - /url: /
+          - link "en" [ref=e12] [cursor=pointer]:
+            - /url: /en/
+    - main [ref=e13]:
+      - img "Portfolio Scrapbook Header" [ref=e16]
+      - main [ref=e17]:
+        - generic [ref=e18]:
+          - complementary [ref=e19]:
+            - img "Profile Photo" [ref=e24]
+            - generic [ref=e26]:
+              - heading "Educación" [level=2] [ref=e27]
+              - generic [ref=e28]:
+                - generic [ref=e31]:
+                  - text: "2019"
+                  - heading "Certificación en Diseño UX/UI" [level=3] [ref=e32]
+                  - paragraph [ref=e33]: Interaction Design Foundation
+                  - paragraph [ref=e34]: Especialización en diseño centrado en el usuario y prototipado avanzado.
+                - generic [ref=e37]:
+                  - text: 2002 — 2008
+                  - heading "Licenciatura en Diseño Gráfico" [level=3] [ref=e38]
+                  - paragraph [ref=e39]: UNICA - Universidad Católica Cecilio Acosta
+                  - paragraph [ref=e40]: Carrera culminada. Formación integral en comunicación visual, teoría del color y diseño editorial.
+                - generic [ref=e43]:
+                  - text: 2000 — 2002
+                  - heading "Ingeniería en Computación" [level=3] [ref=e44]
+                  - paragraph [ref=e45]: URBE — Universidad Rafael Belloso Chacín
+                  - paragraph [ref=e46]: Base Académica (50% Completado). Fundamentos sólidos en algoritmos y arquitectura de computadores.
+            - generic [ref=e47]:
+              - heading "Proyectos" [level=2] [ref=e49]
+              - generic [ref=e51]:
+                - generic [ref=e54]:
+                  - generic [ref=e55]:
+                    - heading "Calculator JS Vanilla" [level=3] [ref=e56]
+                    - link "View Calculator JS Vanilla on GitHub" [ref=e57] [cursor=pointer]:
+                      - /url: https://calculator-js-vanilla.netlify.app/
+                      - img [ref=e58]
+                  - paragraph [ref=e61]: Calculadora funcional construida con JavaScript vanilla, HTML y CSS. Implementa operaciones matemáticas básicas con manejo de estado.
+                  - generic [ref=e62]:
+                    - generic [ref=e63]: JavaScript
+                    - generic [ref=e64]: HTML
+                    - generic [ref=e65]: CSS
+                    - generic [ref=e66]: Vanilla
+                - generic [ref=e73]:
+                  - generic [ref=e74]:
+                    - heading "She-Hulk React" [level=3] [ref=e75]
+                    - link "View She-Hulk React on GitHub" [ref=e76] [cursor=pointer]:
+                      - /url: https://she-hulk-react.netlify.app/
+                      - img [ref=e77]
+                  - paragraph [ref=e80]: Landing page temática de She-Hulk desarrollada con React. Diseño responsive con animaciones y efectos visuales.
+                  - generic [ref=e81]:
+                    - generic [ref=e82]: React
+                    - generic [ref=e83]: CSS
+                    - generic [ref=e84]: Responsive
+                    - generic [ref=e85]: Animation
+                - generic [ref=e92]:
+                  - generic [ref=e93]:
+                    - heading "Shopping Cart React" [level=3] [ref=e94]
+                    - link "View Shopping Cart React on GitHub" [ref=e95] [cursor=pointer]:
+                      - /url: https://shopping-card-react-prfmaetre.netlify.app/
+                      - img [ref=e96]
+                  - paragraph [ref=e99]: Carrito de compras funcional con React. Gestión de estado para productos, cantidades y cálculo de totales en tiempo real.
+                  - generic [ref=e100]:
+                    - generic [ref=e101]: React
+                    - generic [ref=e102]: State Management
+                    - generic [ref=e103]: E-commerce
+                - generic [ref=e110]:
+                  - generic [ref=e111]:
+                    - heading "Snake JS Game" [level=3] [ref=e112]
+                    - link "View Snake JS Game on GitHub" [ref=e113] [cursor=pointer]:
+                      - /url: https://snake-js-pedro.netlify.app/
+                      - img [ref=e114]
+                  - paragraph [ref=e117]: Clásico juego de la serpiente implementado en JavaScript vanilla. Lógica de juego, detección de colisiones y sistema de puntuación.
+                  - generic [ref=e118]:
+                    - generic [ref=e119]: JavaScript
+                    - generic [ref=e120]: Game Dev
+                    - generic [ref=e121]: Canvas
+                    - generic [ref=e122]: Vanilla
+                - generic [ref=e129]:
+                  - generic [ref=e130]:
+                    - heading "Todo App - Frontend Mentor" [level=3] [ref=e131]
+                    - link "View Todo App - Frontend Mentor on GitHub" [ref=e132] [cursor=pointer]:
+                      - /url: https://todo-react-frontend-mentor.netlify.app/
+                      - img [ref=e133]
+                  - paragraph [ref=e136]: Aplicación de tareas basada en desafío de Frontend Mentor. Filtros por estado, drag & drop y diseño pixel-perfect.
+                  - generic [ref=e137]:
+                    - generic [ref=e138]: React
+                    - generic [ref=e139]: Frontend Mentor
+                    - generic [ref=e140]: Drag & Drop
+                - generic [ref=e147]:
+                  - generic [ref=e148]:
+                    - heading "Formulario React" [level=3] [ref=e149]
+                    - link "View Formulario React on GitHub" [ref=e150] [cursor=pointer]:
+                      - /url: https://formulario-react-prfmaestre.netlify.app/
+                      - img [ref=e151]
+                  - paragraph [ref=e154]: Formulario multi-step con validación en tiempo real. Manejo de errores, estados de carga y feedback visual al usuario.
+                  - generic [ref=e155]:
+                    - generic [ref=e156]: React
+                    - generic [ref=e157]: Forms
+                    - generic [ref=e158]: Validation
+                    - generic [ref=e159]: UX
+          - generic [ref=e164]:
+            - generic [ref=e165]:
+              - heading "¡ Hola !" [level=1] [ref=e166]
+              - paragraph [ref=e167]: Soy Licenciado en Diseño Gráfico (UNICA) con una base técnica de Ingeniería en Computación. Esta combinación me permite unir la sensibilidad visual con la lógica de programación para crear productos digitales que no solo se ven increíbles, sino que funcionan a la perfección. Profesional empírico en constante evolución.
+              - paragraph [ref=e168]: Software Development Frontend | UX/UI Specialist
+            - generic [ref=e170]:
+              - heading "Contact" [level=2] [ref=e171]
+              - generic [ref=e172]:
+                - link "EM Email directo prfmaetre@gmail.com" [ref=e173] [cursor=pointer]:
+                  - /url: mailto:prfmaetre@gmail.com
+                  - generic [ref=e175]: EM
+                  - generic [ref=e176]:
+                    - generic [ref=e177]: Email directo
+                    - generic [ref=e178]: prfmaetre@gmail.com
+                - link "LI LinkedIn www.linkedin.com/in/pedro-fernandez-develop-frontend/" [ref=e179] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/in/pedro-fernandez-develop-frontend/
+                  - generic [ref=e181]: LI
+                  - generic [ref=e182]:
+                    - generic [ref=e183]: LinkedIn
+                    - generic [ref=e184]: www.linkedin.com/in/pedro-fernandez-develop-frontend/
+                - link "GI GitHub github.com/PandaDesigner" [ref=e185] [cursor=pointer]:
+                  - /url: https://github.com/PandaDesigner
+                  - generic [ref=e187]: GI
+                  - generic [ref=e188]:
+                    - generic [ref=e189]: GitHub
+                    - generic [ref=e190]: github.com/PandaDesigner
+                - link "OT Portfolio pandadesigners.com" [ref=e191] [cursor=pointer]:
+                  - /url: https://pandadesigners.com
+                  - generic [ref=e193]: OT
+                  - generic [ref=e194]:
+                    - generic [ref=e195]: Portfolio
+                    - generic [ref=e196]: pandadesigners.com
+            - generic [ref=e198]:
+              - heading "Software & Stack" [level=2] [ref=e199]
+              - generic [ref=e200]:
+                - generic [ref=e201]:
+                  - heading "Frontend & Mobile" [level=3] [ref=e203]
+                  - generic [ref=e204]:
+                    - generic [ref=e205]: React
+                    - generic [ref=e206]: Next.js
+                    - generic [ref=e207]: React Native
+                    - generic [ref=e208]: Expo
+                    - generic [ref=e209]: TypeScript
+                    - generic [ref=e210]: JavaScript
+                - generic [ref=e211]:
+                  - heading "UI/UX & Design" [level=3] [ref=e213]
+                  - generic [ref=e214]:
+                    - generic [ref=e215]: Figma
+                    - generic [ref=e216]: Adobe XD
+                    - generic [ref=e217]: Photoshop
+                    - generic [ref=e218]: Illustrator
+                    - generic [ref=e219]: Tailwind CSS
+                    - generic [ref=e220]: MUI
+                - generic [ref=e221]:
+                  - heading "Arquitectura & Estado" [level=3] [ref=e223]
+                  - generic [ref=e224]:
+                    - generic [ref=e225]: Redux
+                    - generic [ref=e226]: Zustand
+                    - generic [ref=e227]: React Query
+                    - generic [ref=e228]: Node
+                    - generic [ref=e229]: NestJS
+                    - generic [ref=e230]: WordPress
+                - generic [ref=e231]:
+                  - heading "Práctica profesional" [level=3] [ref=e233]
+                  - generic [ref=e234]:
+                    - generic [ref=e235]: Design Systems
+                    - generic [ref=e236]: Atomic Design
+                    - generic [ref=e237]: Testing
+                    - generic [ref=e238]: Remote work
+                    - generic [ref=e239]: Communication
+            - generic [ref=e241]:
+              - heading "Experiencia" [level=2] [ref=e242]
+              - generic [ref=e243]:
+                - generic [ref=e246]:
+                  - text: Jun 2025 — Presente
+                  - heading "Vanguard Vision AI" [level=3] [ref=e247]
+                  - paragraph [ref=e248]: Software Development Frontend
+                  - paragraph [ref=e249]: Desarrollo de aplicaciones web fullstack con Next.js y backend integrado, priorizando interfaces complejas y lógica reutilizable.
+                - generic [ref=e252]:
+                  - text: May 2024 — May 2025
+                  - heading "Mercado Libre" [level=3] [ref=e253]
+                  - paragraph [ref=e254]: Frontend Developer
+                  - paragraph [ref=e255]: Desarrollo de features frontend en una plataforma de alto tráfico con TypeScript, Redux y enfoque en robustez.
+                - generic [ref=e258]:
+                  - text: Oct 2022 — Jun 2025
+                  - heading "Xcala" [level=3] [ref=e259]
+                  - paragraph [ref=e260]: Software Development Frontend · UX/UI
+                  - paragraph [ref=e261]: Diseño y desarrollo de interfaces responsivas con React y TypeScript, con foco en dashboards y visualización de datos.
+                - generic [ref=e264]:
+                  - text: Jul 2022 — Oct 2023
+                  - heading "Efigen Renewable Energy" [level=3] [ref=e265]
+                  - paragraph [ref=e266]: Frontend Developer
+                  - paragraph [ref=e267]: Desarrollo de interfaces web priorizando rendimiento y consistencia en componentes visuales y reportes.
+            - generic [ref=e268]:
+              - heading "Habilidades Técnicas" [level=2] [ref=e270]
+              - generic [ref=e272]:
+                - generic [ref=e274]:
+                  - generic [ref=e275]: Frontend / UI Architecture
+                  - generic [ref=e276]: MASTERY
+                - generic [ref=e282]:
+                  - generic [ref=e283]: UX / UI Design Systems
+                  - generic [ref=e284]: MASTERY
+                - generic [ref=e290]:
+                  - generic [ref=e291]: AI Tooling (Cursor, Antigravity, Claude)
+                  - generic [ref=e292]: MASTERY
+                - generic [ref=e298]:
+                  - generic [ref=e299]: Advanced Coding (POO & Functional)
+                  - generic [ref=e300]: MASTERY
+                - generic [ref=e306]:
+                  - generic [ref=e307]: Methodologies (SDD, TDD, Hexagonal)
+                  - generic [ref=e308]: MASTERY
+                - generic [ref=e314]:
+                  - generic [ref=e315]: Backend (Express/Next.js/NestJS)
+                  - generic [ref=e316]: 50%
+                - generic [ref=e321]:
+                  - generic [ref=e322]: Python Development
+                  - generic [ref=e323]: 20%
+    - contentinfo [ref=e327]:
+      - generic [ref=e328]:
+        - paragraph [ref=e329]: © 2026 Pedro Fernández
+        - paragraph [ref=e330]: Frontend Engineer · UX/UI Designer · React / Next.js / React Native
