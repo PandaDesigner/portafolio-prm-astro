@@ -82,7 +82,9 @@ const loadingText = lang === 'es' ? 'Generando...' : 'Generating...';
         
         allElements.forEach(el => {
           const htmlEl = el as HTMLElement;
-          const classes = htmlEl.className.split(' ');
+          // Verificar que className sea un string (no SVGAnimatedString)
+          const className = typeof htmlEl.className === 'string' ? htmlEl.className : '';
+          const classes = className.split(' ');
           classes.forEach(cls => {
             if (safeColors[cls]) {
               if (cls.startsWith('bg-')) htmlEl.style.backgroundColor = safeColors[cls];
