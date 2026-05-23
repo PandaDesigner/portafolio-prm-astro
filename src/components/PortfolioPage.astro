@@ -93,6 +93,31 @@ const technicalSkills = [
           />
         </div>
 
+        <!-- 3D Programmer Avatar (Full Height, Transparent Background) -->
+        <div class="gsap-reveal-avatar order-8 lg:order-none relative w-full pt-12 lg:pt-0 hidden lg:block h-[800px]">
+          <div class="absolute inset-0 w-full h-full rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(14,165,233,0.15)] transition-transform duration-700 hover:scale-[1.02]">
+            <img 
+              src="/programmer-3d.png" 
+              alt="3D Programmer Avatar" 
+              class="w-full h-full object-cover"
+              style="mix-blend-mode: screen; filter: contrast(1.2);"
+            />
+            <div class="absolute inset-0 rounded-3xl mix-blend-overlay border border-white/10"></div>
+          </div>
+        </div>
+        
+        <!-- Mobile fallback for 3D avatar -->
+        <div class="gsap-reveal-avatar order-8 flex justify-center lg:hidden pt-12">
+           <div class="relative w-full aspect-[9/16] rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(14,165,233,0.15)]">
+            <img 
+              src="/programmer-3d.png" 
+              alt="3D Programmer Avatar" 
+              class="w-full h-full object-cover"
+              style="mix-blend-mode: screen; filter: contrast(1.2);"
+            />
+          </div>
+        </div>
+
       </aside>
 
       <!-- Right Column: Primary Content -->
@@ -182,6 +207,29 @@ const technicalSkills = [
           scrollTrigger: {
             trigger: element,
             start: "top 85%", // Cuando el top del elemento entra en el 85% del viewport
+            toggleActions: "play reverse play reverse"
+          }
+        }
+      );
+    });
+
+    const avatars = document.querySelectorAll('.gsap-reveal-avatar');
+    avatars.forEach(element => {
+      gsap.fromTo(element, 
+        { 
+          opacity: 0, 
+          scale: 0.8,
+          y: 100
+        }, 
+        { 
+          opacity: 1, 
+          scale: 1,
+          y: 0,
+          duration: 1.2, 
+          ease: "back.out(1.5)",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 85%",
             toggleActions: "play reverse play reverse"
           }
         }
