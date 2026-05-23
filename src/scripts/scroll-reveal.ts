@@ -25,7 +25,9 @@ function initScrollReveal() {
       // because of the negative rootMargin
       if (entry.isIntersecting) {
         entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
+      } else {
+        // Al quitar la clase cuando sale del viewport inferior, se revierte la animación
+        entry.target.classList.remove('visible');
       }
     });
   }, observerOptions);

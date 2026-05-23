@@ -86,40 +86,20 @@ const technicalSkills = [
           <ProfilePolaroid />
         </div>
 
-        <div class="reveal order-4 lg:order-none">
+        <div class="gsap-reveal order-4 lg:order-none">
           <HandmadeTimeline 
             title={lang === 'es' ? 'Educación' : 'Education'} 
             items={education} 
           />
         </div>
 
-        <!-- Projects Section -->
-        <section id="projects" class="reveal space-y-10 order-3 lg:order-none">
-          <div class="space-y-2">
-            <h2 class="text-4xl font-bold text-white" style="font-family: 'Playfair Display', serif;">
-              {t('nav.projects')}
-            </h2>
-            <div class="h-1 w-20 bg-[#7ac5ff] rounded-full"></div>
-          </div>
-          
-          <div class="grid gap-8">
-            {model.projects.map(project => (
-              <ProjectCard 
-                name={project.name}
-                description={project.description}
-                href={project.href}
-                tags={[...project.tags]}
-              />
-            ))}
-          </div>
-        </section>
       </aside>
 
       <!-- Right Column: Primary Content -->
       <div class="contents lg:block lg:space-y-20">
         
         <!-- Hello Section -->
-        <section id="hello" class="reveal order-2">
+        <section id="hello" class="gsap-reveal gsap-reveal-right order-2">
           <h1 class="text-6xl font-bold text-white leading-tight" style="font-family: 'Playfair Display', serif;">
             {lang === 'es' ? '¡ Hola !' : 'Hello !'}
           </h1>
@@ -132,17 +112,17 @@ const technicalSkills = [
         </section>
 
         <!-- Contact Section -->
-        <section id="contact" class="reveal order-5">
+        <section id="contact" class="gsap-reveal order-5">
           <ContactSectionRedesign contacts={model.contacts} />
         </section>
 
         <!-- Software Section -->
-        <section id="software" class="reveal order-6">
+        <section id="software" class="order-6">
           <SoftwareGrid skills={model.skills} />
         </section>
 
         <!-- Experience Section -->
-        <section id="experience" class="reveal order-7">
+        <section id="experience" class="gsap-reveal order-7">
           <HandmadeTimeline 
             title={t('nav.experience')} 
             items={model.experiences.map(exp => ({
@@ -155,7 +135,7 @@ const technicalSkills = [
         </section>
 
         <!-- Technical Skills Section -->
-        <section id="skills" class="reveal space-y-10 order-8">
+        <section id="skills" class="gsap-reveal space-y-10 order-8">
           <div class="space-y-2">
             <h2 class="text-4xl font-bold text-white" style="font-family: 'Playfair Display', serif;">
               {lang === 'es' ? 'Habilidades Técnicas' : 'Technical Proficiency'}
@@ -163,7 +143,7 @@ const technicalSkills = [
             <div class="h-1 w-20 bg-[#7ac5ff] rounded-full"></div>
           </div>
           
-          <div class="grid gap-x-12 gap-y-8 sm:grid-cols-2">
+          <div class="grid gap-x-12 gap-y-8 sm:grid-cols-2 reveal-stagger">
             {technicalSkills.map(skill => (
               <SkillBar label={skill.label} percentage={skill.percentage} />
             ))}
@@ -174,3 +154,45 @@ const technicalSkills = [
     </div>
   </main>
 </BaseLayout>
+
+<script>
+  import gsap from "gsap";
+  import ScrollTrigger from "gsap/ScrollTrigger";
+  
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initGlobalReveals() {
+    const reveals = document.querySelectorAll('.gsap-reveal');
+    reveals.forEach(element => {
+      // Configuramos el estado inicial antes de que GSAP lo tome para evitar FOUC
+      const isRight = element.classList.contains('gsap-reveal-right');
+      
+      gsap.fromTo(element, 
+        { 
+          opacity: 0, 
+          x: isRight ? 50 : 0,
+          y: isRight ? 0 : 50
+        }, 
+        { 
+          opacity: 1, 
+          x: 0,
+          y: 0,
+          duration: 0.8, 
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: element,
+            start: "top 85%", // Cuando el top del elemento entra en el 85% del viewport
+            toggleActions: "play reverse play reverse"
+          }
+        }
+      );
+    });
+  }
+
+  document.addEventListener('astro:page-load', initGlobalReveals);
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initGlobalReveals();
+  } else {
+    document.addEventListener('DOMContentLoaded', initGlobalReveals);
+  }
+</script>

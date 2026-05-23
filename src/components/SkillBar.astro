@@ -11,13 +11,13 @@ const { label, percentage, isFull = percentage === 100 } = Astro.props;
 const rotation = (Math.random() * 1.5 - 0.75).toFixed(2);
 ---
 
-<div class="space-y-1.5 group">
+<div class="space-y-1.5 group skill-bar-container reveal reveal-left" data-percentage={percentage} data-isfull={isFull.toString()}>
   <div class="flex justify-between items-end px-1">
     <span class="text-lg font-bold text-white/90" style="font-family: var(--font-display);">
       {label}
     </span>
-    <span class={`text-xs font-mono font-bold tracking-tighter ${isFull ? 'text-[#7ac5ff]' : 'text-slate-500'}`}>
-      {isFull ? 'MASTERY' : `${percentage}%`}
+    <span class={`skill-percent text-xs font-mono font-bold tracking-tighter ${isFull ? 'text-[#7ac5ff]' : 'text-slate-500'}`}>
+      0%
     </span>
   </div>
   
@@ -29,8 +29,8 @@ const rotation = (Math.random() * 1.5 - 0.75).toFixed(2);
     <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 8px 8px;"></div>
     
     <div 
-      class={`h-full transition-all duration-1000 ease-out relative ${isFull ? 'bg-[#7ac5ff] shadow-[0_0_15px_rgba(122,197,255,0.3)]' : 'bg-slate-600'}`}
-      style={`width: ${percentage}%`}
+      class={`skill-fill h-full transition-all duration-1000 ease-out relative ${isFull ? 'bg-[#7ac5ff] shadow-[0_0_15px_rgba(122,197,255,0.3)]' : 'bg-slate-600'}`}
+      style="width: 0%;"
     >
       <!-- Marker highlight effect -->
       <div class="absolute inset-0 bg-white/10 w-full h-1/2"></div>
@@ -41,6 +41,62 @@ const rotation = (Math.random() * 1.5 - 0.75).toFixed(2);
     </div>
   </div>
 </div>
+
+<script>
+  import gsap from "gsap";
+  import ScrollTrigger from "gsap/ScrollTrigger";
+  
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initSkillBars() {
+    const bars = document.querySelectorAll('.skill-bar-container');
+    bars.forEach(container => {
+      const fill = container.querySelector('.skill-fill');
+      const percentText = container.querySelector('.skill-percent');
+      
+      // Parse targets from dataset
+      // Nota: HTMLElement ya no se casteará de Typescript para evitar que Vite crashee en Astro
+      const dataset = (container as any).dataset || {};
+      const target = parseInt(container.getAttribute('data-percentage') || '0');
+      const isFull = container.getAttribute('data-isfull') === 'true';
+      
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container,
+          start: "top 85%", // Arranca cuando el elemento entra en el 85% inferior de la pantalla
+          toggleActions: "play reverse play reverse" // Permite volver atrás la barra si se sube
+        }
+      });
+      
+      const counter = { val: 0 };
+      
+      // Animación conjunta: Llenar barra y contar número
+      tl.to(fill, { width: target + '%', duration: 1.2, ease: "power2.out" }, 0)
+        .to(counter, { 
+          val: target, 
+          duration: 1.2, 
+          ease: "power2.out",
+          onUpdate: () => {
+            if (percentText) {
+              const current = Math.floor(counter.val);
+              if (isFull && current === 100) {
+                percentText.textContent = 'MASTERY';
+              } else {
+                percentText.textContent = current + '%';
+              }
+            }
+          }
+        }, 0);
+    });
+  }
+  
+  document.addEventListener('astro:page-load', initSkillBars);
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initSkillBars();
+  } else {
+    document.addEventListener('DOMContentLoaded', initSkillBars);
+  }
+</script>
 
 <style>
   div {

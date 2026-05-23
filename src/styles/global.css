@@ -65,6 +65,7 @@ h4 {
 .reveal-left { transform: translateX(40px); }
 .reveal-right { transform: translateX(-40px); }
 .reveal-scale { transform: scale(0.96); }
+.reveal-spin { transform: rotateY(-90deg) scale(0.8); }
 
 /* Default to reveal-up if no specific direction is provided */
 .reveal:not([class*="reveal-"]) {
@@ -73,7 +74,7 @@ h4 {
 
 .reveal.visible {
   opacity: 1;
-  transform: translate(0) scale(1);
+  transform: translate(0) scale(1) rotateY(0deg);
   filter: blur(0);
 }
 

@@ -1,7 +1,7 @@
 ---
 /**
  * SoftwareGrid Component
- * Grid of software icons/badges with a handmade collage feel.
+ * Grid of software icons/badges with GSAP stagger animations.
  */
 interface Props {
   skills: Array<{
@@ -11,23 +11,46 @@ interface Props {
 }
 
 const { skills } = Astro.props;
+
+function getIconForTech(tech: string) {
+  const name = tech.toLowerCase();
+  
+  if (name.includes('react') || name.includes('expo')) return 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg';
+  if (name.includes('next')) return 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg';
+  if (name.includes('typescript')) return 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg';
+  if (name.includes('javascript')) return 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg';
+  if (name.includes('node')) return 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg';
+  if (name.includes('nest')) return 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nestjs/nestjs-original.svg';
+  if (name.includes('tailwind') || name.includes('css')) return 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg';
+  if (name.includes('redux')) return 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redux/redux-original.svg';
+  if (name.includes('figma')) return 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg';
+  if (name.includes('photoshop')) return 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/photoshop/photoshop-original.svg';
+  if (name.includes('illustrator')) return 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/illustrator/illustrator-original.svg';
+  if (name.includes('wordpress')) return 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/wordpress/wordpress-original.svg';
+
+  return null;
+}
 ---
 
-<div class="mt-12">
+<div class="mt-12 software-grid-container">
   <h2 class="text-3xl font-bold text-white mb-8" style="font-family: 'Playfair Display', serif;">
     Software & Stack
   </h2>
 
   <div class="grid gap-6 sm:grid-cols-2">
     {skills.map((group) => (
-      <div class="reveal collage-block p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md relative overflow-hidden group">
-        <!-- Abstract doodle decoration -->
+      <div class="software-card opacity-0 translate-y-8 collage-block p-6 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md relative overflow-hidden group">
         <div class="absolute -top-4 -right-4 w-12 h-12 border border-white/10 rounded-full group-hover:scale-150 transition-transform duration-700"></div>
         
         <h3 class="text-lg font-bold text-sky-200 mb-4">{group.title}</h3>
         <div class="flex flex-wrap gap-2">
           {group.items.map((item) => (
-            <span class="px-4 py-2 rounded-lg bg-white/10 border border-white/5 text-sm text-slate-100 ring-1 ring-inset ring-white/5 hover:bg-white/20 transition-colors">
+            <span class="software-item opacity-0 scale-90 flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white/10 border border-white/5 text-sm text-slate-100 ring-1 ring-inset ring-white/5 hover:bg-white/20 transition-colors">
+              {getIconForTech(item) ? (
+                <img src={getIconForTech(item)} alt={item} class={`w-4 h-4 object-contain ${item.toLowerCase().includes('next') ? 'invert opacity-80' : ''}`} />
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-sky-400 opacity-70"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+              )}
               {item}
             </span>
           ))}
@@ -36,6 +59,59 @@ const { skills } = Astro.props;
     ))}
   </div>
 </div>
+
+<script>
+  import gsap from "gsap";
+  import ScrollTrigger from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initSoftwareGrid() {
+    const container = document.querySelector('.software-grid-container');
+    if (!container) return;
+
+    const cards = container.querySelectorAll('.software-card');
+    
+    // Creamos un timeline principal para todo el bloque de Software & Stack
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: container,
+        start: "top 80%", // Arranca cuando el título entra en pantalla
+        toggleActions: "play reverse play reverse"
+      }
+    });
+
+    // Animar las cards secuencialmente
+    tl.to(cards, {
+      opacity: 1,
+      y: 0,
+      duration: 0.6,
+      stagger: 0.2, // Cada card aparece 0.2s después de la anterior
+      ease: "power3.out"
+    }, 0);
+
+    // Animar los tags internos secuencialmente dentro de cada card
+    cards.forEach((card, index) => {
+      const items = card.querySelectorAll('.software-item');
+      // Enganchamos el inicio de la animación de los tags internos para que
+      // coincida con el momento en el que su card empieza a aparecer (+ un ligero offset)
+      tl.to(items, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.4,
+        stagger: 0.05, // Efecto tipo ametralladora súper rápido para los tags
+        ease: "back.out(2)"
+      }, index * 0.2 + 0.2); // Offset dinámico
+    });
+  }
+
+  document.addEventListener('astro:page-load', initSoftwareGrid);
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initSoftwareGrid();
+  } else {
+    document.addEventListener('DOMContentLoaded', initSoftwareGrid);
+  }
+</script>
 
 <style>
   .collage-block {
