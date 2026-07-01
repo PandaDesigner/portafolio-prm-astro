@@ -1,5 +1,6 @@
 ---
 import LanguagePicker from './LanguagePicker.astro';
+import DownloadButton from './DownloadButton.astro';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
@@ -39,6 +40,7 @@ const portraitSrc =
         ))}
       </nav>
       <LanguagePicker />
+        <DownloadButton />
     </div>
   </div>
 </header>

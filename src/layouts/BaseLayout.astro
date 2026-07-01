@@ -7,23 +7,31 @@ import '../styles/global.css';
 const {
   title = 'Pedro Fernández · Frontend Engineer / UX/UI Designer',
   description = 'Portfolio profesional moderno con foco en UX, performance y arquitectura escalable.',
+  noHeader = false,
+  noFooter = false,
 } = Astro.props;
+
+const path = Astro.url.pathname;
+const htmlLang: 'es' | 'en' = path.startsWith('/en') ? 'en' : 'es';
+const descLocalized = htmlLang === 'en'
+  ? 'Modern professional portfolio focused on UX, performance, and scalable architecture.'
+  : description;
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content={description} />
+    <meta name="description" content={descLocalized} />
     <meta name="theme-color" content="#0d1220" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    
+
     <!-- Google Fonts: Playfair Display & Manrope -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    
+
     <title>{title}</title>
     <ClientRouter fallback="swap" />
   </head>
@@ -32,11 +40,11 @@ const {
       Saltar al contenido
     </a>
     <div class="relative min-h-screen">
-      <SiteHeader />
-      <main id="main">
+      {noHeader ? null : <SiteHeader />}
+      <main id={noHeader ? '' : 'main'}>
         <slot />
       </main>
-      <SiteFooter />
+      {noFooter ? null : <SiteFooter />}
     </div>
     <script src="../scripts/scroll-reveal.ts"></script>
   </body>
