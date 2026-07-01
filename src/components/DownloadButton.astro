@@ -1,0 +1,51 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Static, bilingual CV PDFs served from /public.
+// download attribute forces a real download (not a tab open).
+const cvFile = lang === 'en' ? '/Pedro-Fernandez-CV-en.pdf' : '/Pedro-Fernandez-CV-es.pdf';
+const cvFileName = lang === 'en' ? 'Pedro-Fernandez-CV-en.pdf' : 'Pedro-Fernandez-CV-es.pdf';
+---
+
+<a
+  href={cvFile}
+  id="download-cv-btn"
+  download={cvFileName}
+  aria-label={t('nav.download')}
+  class="
+    outline outline-dashed outline-1 outline-[#0d121f]/40
+    hover:outline-[#7ac5ff] hover:outline-2
+    px-4 py-2
+    text-xs font-bold uppercase tracking-widest
+    text-[#0d121f]/70 hover:text-[#7ac5ff]
+    rounded-full
+    transition-all duration-300
+    flex items-center gap-2
+    group
+    ml-2
+  "
+>
+  <svg
+    class="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-y-0.5"
+    fill="none"
+    stroke="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+    />
+  </svg>
+  <span>{t('nav.download')}</span>
+</a>
+
+<style>
+  a {
+    font-family: var(--font-body);
+  }
+</style>

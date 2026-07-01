@@ -1,0 +1,700 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { LocalPortfolioRepository } from '../core/infrastructure/local-portfolio-repository';
+import { useTranslations } from '../i18n/utils';
+
+// Detect language from URL - support /cv, /en/cv, /es/cv
+const url = Astro.url.pathname;
+const lang: 'es' | 'en' = url.startsWith('/en') ? 'en' : 'es';
+const t = useTranslations(lang);
+
+const repository = new LocalPortfolioRepository(lang);
+const profile = await repository.loadProfile();
+const experiences = await repository.loadExperiences();
+const skillGroups = await repository.loadSkillGroups();
+const contacts = await repository.loadContactChannels();
+const projects = await repository.loadCuratedProjects();
+
+// Education data (same as PortfolioPage)
+const education = lang === 'en' ? [
+  {
+    period: '2019',
+    title: 'UX/UI Design Certification',
+    subtitle: 'Interaction Design Foundation',
+    description: 'Specialization in user-centered design and advanced prototyping.'
+  },
+  {
+    period: '2002 — 2008',
+    title: 'Bachelor in Graphic Design',
+    subtitle: 'UNICA - Cecilio Acosta Catholic University',
+    description: 'Completed degree. Comprehensive training in visual communication, color theory, and editorial design.'
+  },
+  {
+    period: '2000 — 2002',
+    title: 'Computer Engineering',
+    subtitle: 'URBE — Rafael Belloso Chacín University',
+    description: 'Academic Base (50% Completed). Solid foundations in algorithms and computer architecture.'
+  }
+] : [
+  {
+    period: '2019',
+    title: 'Certificación en Diseño UX/UI',
+    subtitle: 'Interaction Design Foundation',
+    description: 'Especialización en diseño centrado en el usuario y prototipado avanzado.'
+  },
+  {
+    period: '2002 — 2008',
+    title: 'Licenciatura en Diseño Gráfico',
+    subtitle: 'UNICA - Universidad Católica Cecilio Acosta',
+    description: 'Carrera culminada. Formación integral en comunicación visual, teoría del color y diseño editorial.'
+  },
+  {
+    period: '2000 — 2002',
+    title: 'Ingeniería en Computación',
+    subtitle: 'URBE — Universidad Rafael Belloso Chacín',
+    description: 'Base Académica (50% Completado). Fundamentos sólidos en algoritmos y arquitectura de computadores.'
+  }
+];
+
+const labels = lang === 'en' ? {
+  experience: 'Professional Experience',
+  education: 'Education',
+  skills: 'Technical Skills',
+  projects: 'Featured Projects',
+  contact: 'Contact',
+  languages: 'Languages',
+  spanish: 'Spanish',
+  english: 'English',
+  native: 'Native',
+  basic: 'Basic',
+  summary: 'Professional Summary',
+  period: 'Period',
+  highlights: 'Key Contributions',
+} : {
+  experience: 'Experiencia Profesional',
+  education: 'Educación',
+  skills: 'Habilidades Técnicas',
+  projects: 'Proyectos Destacados',
+  contact: 'Contacto',
+  languages: 'Idiomas',
+  spanish: 'Español',
+  english: 'Inglés',
+  native: 'Nativo',
+  basic: 'Básico',
+  summary: 'Resumen Profesional',
+  period: 'Periodo',
+  highlights: 'Aportes Clave',
+};
+
+const portraitSrc = '/cv-portrait.jpg';
+---
+
+<BaseLayout title={`CV | ${profile.name}`} noHeader noFooter>
+  <div class="cv-container">
+    <!-- Header Section -->
+    <header class="cv-header">
+      <div class="cv-photo">
+        <img src={portraitSrc} alt={profile.name} />
+      </div>
+      <div class="cv-header-info">
+        <h1>{profile.name}</h1>
+        <p class="cv-role">{profile.role}</p>
+        <p class="cv-tagline">{profile.headline}</p>
+      </div>
+    </header>
+
+    <!-- Two Column Layout -->
+    <div class="cv-grid">
+      <!-- Left Column: Contact, Skills, Languages -->
+      <aside class="cv-sidebar">
+        <section class="cv-section">
+          <h2>{labels.contact}</h2>
+          <ul class="cv-contact-list">
+            {contacts.map((c) => (
+              <li>
+                <span class="cv-contact-label">{c.label}</span>
+                <a href={c.href}>{c.href.startsWith('mailto:') ? c.href.replace('mailto:', '') : c.href.replace('https://', '').replace('http://', '').replace('www.', '')}</a>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section class="cv-section">
+          <h2>{labels.skills}</h2>
+          {skillGroups.map((group) => (
+            <div class="cv-skill-group">
+              <h3>{group.title}</h3>
+              <ul class="cv-skill-list">
+                {group.items.map((skill) => (
+                  <li>{skill}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </section>
+
+        <section class="cv-section">
+          <h2>{labels.languages}</h2>
+          <ul class="cv-language-list">
+            <li>
+              <strong>{labels.spanish}</strong>
+              <span>{labels.native}</span>
+            </li>
+            <li>
+              <strong>{labels.english}</strong>
+              <span>{labels.basic}</span>
+            </li>
+          </ul>
+        </section>
+      </aside>
+
+      <!-- Right Column: Summary, Experience, Education, Projects -->
+      <main class="cv-main">
+        <section class="cv-section">
+          <h2>{labels.summary}</h2>
+          <p class="cv-summary">{profile.summary}</p>
+        </section>
+
+        <section class="cv-section">
+          <h2>{labels.experience}</h2>
+          {experiences.map((exp) => (
+            <article class="cv-item">
+              <div class="cv-item-header">
+                <h3>{exp.role}</h3>
+                <span class="cv-period">{exp.period}</span>
+              </div>
+              <p class="cv-item-subtitle">{exp.company}</p>
+              <p class="cv-item-description">{exp.summary}</p>
+              {exp.impact && exp.impact.length > 0 && (
+                <>
+                  <p class="cv-highlights-label">{labels.highlights}:</p>
+                  <ul class="cv-highlights">
+                    {exp.impact.map((h) => (
+                      <li>{h}</li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </article>
+          ))}
+        </section>
+
+        <section class="cv-section">
+          <h2>{labels.education}</h2>
+          {education.map((edu) => (
+            <article class="cv-item">
+              <div class="cv-item-header">
+                <h3>{edu.title}</h3>
+                <span class="cv-period">{edu.period}</span>
+              </div>
+              <p class="cv-item-subtitle">{edu.subtitle}</p>
+              <p class="cv-item-description">{edu.description}</p>
+            </article>
+          ))}
+        </section>
+
+        <section class="cv-section">
+          <h2>{labels.projects}</h2>
+          {projects.slice(0, 4).map((p) => (
+            <article class="cv-item">
+              <div class="cv-item-header">
+                <h3>{p.name}</h3>
+              </div>
+              <p class="cv-item-subtitle">{p.href.replace('https://', '').replace('http://', '')}</p>
+              <p class="cv-item-description">{p.description}</p>
+              <ul class="cv-tags">
+                {p.tags.map((tag) => (
+                  <li>{tag}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
+        </section>
+      </main>
+    </div>
+
+    <!-- Print Action Bar (visible only on screen, hidden when printing) -->
+    <div class="cv-actions no-print">
+      <button id="cv-print-btn" class="cv-print-btn">
+        {lang === 'en' ? 'Print / Save as PDF' : 'Imprimir / Guardar como PDF'}
+      </button>
+      <a href={lang === 'en' ? '/en/' : '/'} class="cv-back-btn">
+        {lang === 'en' ? 'Back to Portfolio' : 'Volver al Portafolio'}
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Screen styles - hidden in print */
+  body {
+    background: #f5f5f5;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cv-container {
+    max-width: 8.5in;
+    min-height: 11in;
+    margin: 40px auto;
+    background: white;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    color: #1a1a1a;
+    position: relative;
+    padding: 0;
+  }
+
+  .cv-header {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 32px 40px 24px;
+    border-bottom: 3px solid #0d121f;
+    background: linear-gradient(to right, #ffffff 0%, #f5f9ff 100%);
+  }
+
+  .cv-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #0d121f;
+    flex-shrink: 0;
+  }
+
+  .cv-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cv-header-info h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    color: #0d121f;
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  .cv-role {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    color: #2563eb;
+  }
+
+  .cv-tagline {
+    font-size: 12px;
+    margin: 0;
+    color: #555;
+  }
+
+  .cv-grid {
+    display: grid;
+    grid-template-columns: 32% 68%;
+    gap: 0;
+  }
+
+  .cv-sidebar {
+    background: #f8fafc;
+    padding: 24px 20px;
+    border-right: 1px solid #e2e8f0;
+  }
+
+  .cv-main {
+    padding: 24px 28px;
+  }
+
+  .cv-section {
+    margin-bottom: 20px;
+  }
+
+  .cv-section h2 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #0d121f;
+    font-weight: 700;
+    margin: 0 0 10px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #2563eb;
+  }
+
+  .cv-contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 11px;
+  }
+
+  .cv-contact-list li {
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+
+  .cv-contact-label {
+    display: block;
+    font-weight: 600;
+    color: #555;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .cv-contact-list a {
+    color: #0d121f;
+    text-decoration: none;
+    word-break: break-all;
+  }
+
+  .cv-skill-group {
+    margin-bottom: 12px;
+  }
+
+  .cv-skill-group h3 {
+    font-size: 11px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    color: #0d121f;
+  }
+
+  .cv-skill-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .cv-skill-list li {
+    background: #e0e7ff;
+    color: #1e40af;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 500;
+  }
+
+  .cv-language-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 11px;
+  }
+
+  .cv-language-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 4px 0;
+    border-bottom: 1px dotted #cbd5e1;
+  }
+
+  .cv-language-list li:last-child {
+    border-bottom: none;
+  }
+
+  .cv-language-list strong {
+    font-weight: 600;
+    color: #0d121f;
+  }
+
+  .cv-language-list span {
+    color: #2563eb;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .cv-item {
+    margin-bottom: 14px;
+    page-break-inside: avoid;
+  }
+
+  .cv-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 2px;
+  }
+
+  .cv-item-header h3 {
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0;
+    color: #0d121f;
+  }
+
+  .cv-period {
+    font-size: 10px;
+    color: #2563eb;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .cv-item-subtitle {
+    font-size: 11px;
+    margin: 0 0 4px;
+    color: #555;
+    font-style: italic;
+  }
+
+  .cv-item-description {
+    font-size: 11px;
+    margin: 0 0 4px;
+    line-height: 1.45;
+    color: #333;
+  }
+
+  .cv-highlights-label {
+    font-size: 10px;
+    font-weight: 600;
+    margin: 6px 0 2px;
+    color: #555;
+  }
+
+  .cv-highlights {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 10px;
+  }
+
+  .cv-highlights li {
+    position: relative;
+    padding-left: 12px;
+    margin-bottom: 2px;
+    line-height: 1.4;
+  }
+
+  .cv-highlights li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: #2563eb;
+  }
+
+  .cv-tags {
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+  }
+
+  .cv-tags li {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 1px 6px;
+    border-radius: 8px;
+    font-size: 9px;
+  }
+
+  .cv-summary {
+    font-size: 11px;
+    line-height: 1.5;
+    margin: 0;
+    color: #333;
+  }
+
+  /* Action bar - only visible on screen */
+  .cv-actions {
+    position: sticky;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    padding: 16px;
+    z-index: 10;
+    margin-top: 24px;
+  }
+
+  .cv-print-btn, .cv-back-btn {
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    font-family: inherit;
+  }
+
+  .cv-print-btn {
+    background: #0d121f;
+    color: white;
+  }
+
+  .cv-print-btn:hover {
+    transform: translateY(-1px);
+    background: #2563eb;
+  }
+
+  .cv-back-btn {
+    background: white;
+    color: #0d121f;
+    border: 1px solid #e2e8f0;
+  }
+
+  .cv-back-btn:hover {
+    transform: translateY(-1px);
+    background: #f8fafc;
+  }
+
+  /* Force preserve colors and backgrounds in print */
+  .cv-container,
+  .cv-header,
+  .cv-sidebar,
+  .cv-photo,
+  .cv-skill-list li,
+  .cv-tags li,
+  .cv-language-list span,
+  .cv-item-header h3,
+  .cv-period,
+  .cv-section h2,
+  .cv-actions,
+  .cv-print-btn,
+  .cv-back-btn {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Print styles - perfect CV output */
+  @media print {
+    @page {
+      size: letter;
+      margin: 0;
+    }
+
+    html, body {
+      background: white !important;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    .cv-container {
+      margin: 0;
+      box-shadow: none;
+      max-width: 100%;
+      min-height: auto;
+      width: 100%;
+    }
+
+    .no-print {
+      display: none !important;
+    }
+
+    /* Smart page breaks - keep sections together, allow items to flow */
+    .cv-section {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .cv-item {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .cv-sidebar {
+      background: #f8fafc !important;
+    }
+
+    .cv-header {
+      background: linear-gradient(to right, #ffffff 0%, #f5f9ff 100%) !important;
+      border-bottom: 3px solid #0d121f !important;
+    }
+
+    /* Avoid orphaned section headers */
+    .cv-section h2 {
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+  }
+
+  /* Responsive - mobile */
+  @media (max-width: 768px) {
+    .cv-container {
+      margin: 0;
+      box-shadow: none;
+    }
+
+    .cv-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cv-sidebar {
+      border-right: none;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .cv-header {
+      padding: 24px 20px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', initPrintButton);
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initPrintButton();
+  }
+
+  function initPrintButton() {
+    const btn = document.getElementById('cv-print-btn');
+    if (!btn) {
+      const retry = setTimeout(initPrintButton, 100);
+      return;
+    }
+    clearTimeout((initPrintButton as any)._retry);
+
+    btn.addEventListener('click', async () => {
+      // Wait for fonts and images before printing
+      await waitForPrintReady();
+      window.print();
+    });
+
+    // Auto-open print dialog on first load if ?print=1
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('print') === '1') {
+      waitForPrintReady().then(() => {
+        setTimeout(() => window.print(), 600);
+      });
+    }
+  }
+
+  async function waitForPrintReady() {
+    // Wait for fonts (Google Fonts) to load
+    if ((document as any).fonts && (document as any).fonts.ready) {
+      try {
+        await (document as any).fonts.ready;
+      } catch (_) { /* noop */ }
+    }
+
+    // Wait for all images (especially portrait)
+    const imgs = Array.from(document.querySelectorAll('img'));
+    await Promise.all(
+      imgs.map((img) => {
+        if (img.complete && img.naturalHeight !== 0) return Promise.resolve();
+        return new Promise<void>((resolve) => {
+          img.addEventListener('load', () => resolve(), { once: true });
+          img.addEventListener('error', () => resolve(), { once: true });
+          // Safety timeout
+          setTimeout(() => resolve(), 3000);
+        });
+      })
+    );
+
+    // Small extra delay to let layout settle
+    await new Promise((r) => setTimeout(r, 200));
+  }
+</script>
