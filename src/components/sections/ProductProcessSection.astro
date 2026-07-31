@@ -1,0 +1,65 @@
+---
+import { useTranslations } from '../../i18n/utils';
+
+interface Props {
+  lang: 'es' | 'en';
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const steps = [
+  { number: '1', title: t('process.research.title'), description: t('process.research.description'), image: '/process-research.png', alt: t('process.research.alt') },
+  { number: '2', title: t('process.design.title'), description: t('process.design.description'), image: '/process-design.png', alt: t('process.design.alt') },
+  { number: '3', title: t('process.development.title'), description: t('process.development.description'), image: '/process-development.png', alt: t('process.development.alt') },
+  { number: '4', title: t('process.testing.title'), description: t('process.testing.description'), image: '/process-testing.png', alt: t('process.testing.alt') },
+];
+---
+
+<section id="process" class="process-section" aria-labelledby="process-title">
+  <div class="process-title-row reveal">
+    <svg aria-hidden="true" viewBox="0 0 24 24" class="process-icon"><path d="M3.5 5.5A2.5 2.5 0 0 1 6 3h5.5v16H6a2.5 2.5 0 0 0-2.5 2.5v-16Zm17 0A2.5 2.5 0 0 0 18 3h-5.5v16H18a2.5 2.5 0 0 1 2.5 2.5v-16Z"/><path d="M7 7h2.5M7 10h2.5M15 7h2.5M15 10h2.5"/></svg>
+    <h2 id="process-title">{t('process.title')}</h2>
+  </div>
+
+  <ol class="process-steps">
+    {steps.map((step, index) => (
+      <li class="process-step reveal" style={`transition-delay: ${index * 90}ms`}>
+        <article>
+          <img src={step.image} alt={step.alt} loading="lazy" decoding="async" />
+          <div class="process-copy">
+            <div class="process-step-heading">
+              <span aria-hidden="true">{step.number}</span>
+              <h3>{step.title}</h3>
+            </div>
+            <p>{step.description}</p>
+          </div>
+        </article>
+        {index < steps.length - 1 && <span class="process-arrow" aria-hidden="true">→</span>}
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .process-section { position: relative; width: min(calc(100vw - 2rem), 90rem); margin-top: 5.5rem; margin-inline: 50%; padding: clamp(1rem, 2vw, 1.75rem); overflow: hidden; border: 1px solid rgb(148 163 184 / 0.28); border-radius: 1.25rem; background: linear-gradient(135deg, rgb(15 28 45 / 0.96), rgb(5 12 23 / 0.94)); box-shadow: 0 24px 60px rgb(0 0 0 / 0.24); isolation: isolate; transform: translateX(-50%); }
+  .process-section::before { content: ''; position: absolute; z-index: -1; inset: 0; background: radial-gradient(circle at 8% 0%, rgb(56 189 248 / 0.16), transparent 28%), radial-gradient(circle at 92% 100%, rgb(249 197 21 / 0.1), transparent 30%); }
+  .process-title-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.35rem; padding: 0 0.25rem; }
+  .process-icon { width: 1.9rem; height: 1.9rem; fill: none; stroke: #7dd3fc; stroke-width: 1.5; }
+  h2 { margin: 0; color: #fff; font-size: clamp(1.45rem, 2.2vw, 2rem); line-height: 1.1; }
+  .process-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(0.75rem, 1.25vw, 1.1rem); margin: 0; padding: 0; list-style: none; }
+  .process-step { position: relative; min-width: 0; }
+  article { position: relative; min-height: clamp(18rem, 27vw, 22rem); overflow: hidden; border: 1px solid rgb(255 255 255 / 0.28); border-radius: 0.9rem; background: #0b1320; box-shadow: 0 10px 22px rgb(0 0 0 / 0.28); transition: transform 260ms ease, border-color 260ms ease, box-shadow 260ms ease; }
+  article:hover { transform: translateY(-0.45rem); border-color: rgb(125 211 252 / 0.85); box-shadow: 0 20px 34px rgb(0 0 0 / 0.38); }
+  img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+  article::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(2 8 18 / 0.05) 18%, rgb(2 8 18 / 0.22) 42%, rgb(2 8 18 / 0.96) 100%); pointer-events: none; }
+  .process-copy { position: absolute; z-index: 1; right: 0; bottom: 0; left: 0; padding: 3.25rem 1rem 1rem; color: #f8fafc; }
+  .process-step-heading { display: flex; align-items: center; gap: 0.45rem; }
+  .process-step-heading span { display: grid; width: 1.55rem; height: 1.55rem; place-items: center; flex: none; border: 1px solid rgb(255 255 255 / 0.25); border-radius: 999px; background: #f9c515; color: #0d1726; font: 800 0.75rem/1 var(--font-body); }
+  h3 { margin: 0; color: #fff; font-size: clamp(1.05rem, 1.45vw, 1.3rem); line-height: 1.08; }
+  .process-copy p { margin: 0.55rem 0 0; color: rgb(226 232 240 / 0.9); font-family: var(--font-body); font-size: clamp(0.72rem, 0.92vw, 0.82rem); font-weight: 500; line-height: 1.5; }
+  .process-arrow { position: absolute; z-index: 3; top: 50%; right: -0.82rem; display: grid; width: 1.55rem; height: 1.55rem; place-items: center; border: 1px solid rgb(255 255 255 / 0.22); border-radius: 999px; background: #10223a; color: #f9c515; font-size: 1.1rem; line-height: 1; box-shadow: 0 3px 12px rgb(0 0 0 / 0.35); transform: translateY(-50%); }
+  @media (max-width: 900px) { .process-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; } article { min-height: 19rem; } .process-arrow { display: none; } }
+  @media (max-width: 560px) { .process-section { margin-top: 4rem; padding: 1rem; } .process-title-row { margin-bottom: 1rem; } .process-steps { grid-template-columns: 1fr; } article { min-height: 18rem; } }
+  @media (prefers-reduced-motion: reduce) { article { transition: none; } article:hover { transform: none; } }
+</style>
