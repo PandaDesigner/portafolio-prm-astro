@@ -12,10 +12,10 @@ export class LocalPortfolioRepository implements PortfolioRepository {
     if (this.lang === 'en') {
       return new Profile(
         'Pedro Fernández',
-        'Frontend Software Development | UX/UI Specialist',
-        'Graphic Design Graduate with technical background in Engineering (URBE).',
-        'I am a Graphic Design Graduate (UNICA) with a technical foundation in Computer Engineering. This combination allows me to blend visual sensitivity with programming logic to create digital products that not only look incredible but function perfectly. Empirical professional in constant evolution.',
-        'Medellín, Colombia · Remote',
+        'Frontend & Mobile Developer | React · Next.js · TypeScript · React Native | UX/UI | Playwright | Clean Architecture',
+        'Frontend and mobile developer with UX/UI and digital graphic design experience.',
+        'Frontend developer with 5+ years of experience, 8+ years in UX/UI, and 15+ years in digital graphic design. I build accessible, user-centered web and mobile products with React, Next.js, Astro, React Native, and TypeScript.',
+        'Bello, Antioquia, Colombia · Remote',
         [
           new ContactChannel('prfmaetre@gmail.com', 'mailto:prfmaetre@gmail.com', 'email'),
           new ContactChannel('LinkedIn', 'https://www.linkedin.com/in/pedro-fernandez-develop-frontend/', 'linkedin'),
@@ -27,10 +27,10 @@ export class LocalPortfolioRepository implements PortfolioRepository {
 
     return new Profile(
       'Pedro Fernández',
-      'Software Development Frontend | UX/UI Specialist',
-      'Licenciado en Diseño Gráfico con formación técnica en Ingeniería (URBE).',
-      'Soy Licenciado en Diseño Gráfico (UNICA) con una base técnica de Ingeniería en Computación. Esta combinación me permite unir la sensibilidad visual con la lógica de programación para crear productos digitales que no solo se ven increíbles, sino que funcionan a la perfección. Profesional empírico en constante evolución.',
-      'Medellín, Colombia · Remote',
+      'Frontend & Mobile Developer | React · Next.js · TypeScript · React Native | UX/UI | Playwright | Clean Architecture',
+      'Desarrollador frontend y móvil con experiencia en UX/UI y diseño gráfico digital.',
+      'Desarrollador frontend con más de 5 años de experiencia, más de 8 años en UX/UI y más de 15 años en diseño gráfico digital. Creo productos web y móviles accesibles y centrados en el usuario con React, Next.js, Astro, React Native y TypeScript.',
+      'Bello, Antioquia, Colombia · Remote',
       [
         new ContactChannel('prfmaetre@gmail.com', 'mailto:prfmaetre@gmail.com', 'email'),
         new ContactChannel('LinkedIn', 'https://www.linkedin.com/in/pedro-fernandez-develop-frontend/', 'linkedin'),
@@ -44,10 +44,10 @@ export class LocalPortfolioRepository implements PortfolioRepository {
     const experiences = [
       {
         company: 'Vanguard Vision AI',
-        role_es: 'Software Development Frontend',
-        role_en: 'Software Development Frontend',
-        period_es: 'Jun 2025 — Presente',
-        period_en: 'Jun 2025 — Present',
+        role_es: 'Desarrollador de front-end',
+        role_en: 'Frontend Developer',
+        period_es: 'Jul 2025 — Jul 2026',
+        period_en: 'Jul 2025 — Jul 2026',
         summary_es: 'Desarrollo de aplicaciones web fullstack con Next.js y backend integrado, priorizando interfaces complejas y lógica reutilizable.',
         summary_en: 'Development of fullstack web applications with Next.js and integrated backend, prioritizing complex interfaces and reusable logic.',
         highlights_es: ['Next.js con backend integrado', 'React + React Native / Expo', 'Testing unitario e integración con Jest'],
@@ -66,14 +66,25 @@ export class LocalPortfolioRepository implements PortfolioRepository {
       },
       {
         company: 'Xcala',
-        role_es: 'Software Development Frontend · UX/UI',
-        role_en: 'Frontend Software Development · UX/UI',
+        role_es: 'Diseñador UX/UI',
+        role_en: 'UX/UI Designer',
         period_es: 'Oct 2022 — Jun 2025',
         period_en: 'Oct 2022 — Jun 2025',
         summary_es: 'Diseño y desarrollo de interfaces responsivas con React y TypeScript, con foco en dashboards y visualización de datos.',
         summary_en: 'Design and development of responsive interfaces with React and TypeScript, focused on dashboards and data visualization.',
         highlights_es: ['Dashboards con Chart.js', 'Colaboración con diseño y producto', 'React Hooks y TypeScript'],
         highlights_en: ['Dashboards with Chart.js', 'Collaboration with design and product', 'React Hooks and TypeScript'],
+      },
+      {
+        company: 'SirBuho',
+        role_es: 'Desarrollador web',
+        role_en: 'Web Developer',
+        period_es: 'Abr 2021 — Jun 2022',
+        period_en: 'Apr 2021 — Jun 2022',
+        summary_es: 'Mantenimiento y desarrollo de sitios web con PHP y WordPress, incluyendo plugins personalizados y páginas a medida.',
+        summary_en: 'Website maintenance and development with PHP and WordPress, including custom plugins and bespoke pages.',
+        highlights_es: ['PHP y WordPress', 'Plugins personalizados y páginas a medida', 'Figma y skeletons de iOS'],
+        highlights_en: ['PHP and WordPress', 'Custom plugins and bespoke pages', 'Figma and iOS skeletons'],
       },
       {
         company: 'Efigen Renewable Energy',
