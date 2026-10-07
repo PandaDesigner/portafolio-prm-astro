@@ -7,6 +7,9 @@ export const defaultLang = "es";
 
 export const ui = {
 	es: {
+        "hero.portfolio": "Portafolio",
+        "profile.title": "Perfil profesional",
+        "footer.role": "Desarrollador Fullstack · Backend Java · Harness Engineering",
 		"nav.hello": "Hola",
 		"nav.contact": "Contacto",
 		"nav.software": "Software",
@@ -32,6 +35,9 @@ export const ui = {
 		"download.loading": "Generando PDF...",
 	},
 	en: {
+        "hero.portfolio": "Portfolio",
+        "profile.title": "Professional profile",
+        "footer.role": "Full-Stack Developer · Java Backend · Harness Engineering",
 		"nav.hello": "Hello",
 		"nav.contact": "Contact",
 		"nav.software": "Software",

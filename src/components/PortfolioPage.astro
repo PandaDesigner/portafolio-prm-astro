@@ -6,7 +6,6 @@ import HandmadeTimeline from './HandmadeTimeline.astro';
 import ProjectCard from './ProjectCard.astro';
 import SoftwareGrid from './SoftwareGrid.astro';
 import ContactSectionRedesign from './ContactSectionRedesign.astro';
-import SkillBar from './SkillBar.astro';
 import ProductProcessSection from './sections/ProductProcessSection.astro';
 import { LocalPortfolioRepository } from '../core/infrastructure/local-portfolio-repository';
 import { GitHubRepositoryAdapter } from '../core/infrastructure/github-repository-adapter';
@@ -24,98 +23,16 @@ const repository = new LocalPortfolioRepository(lang);
 const github = new GitHubRepositoryAdapter('PandaDesigner', await repository.loadCuratedProjects());
 const model = await new BuildHomePageUseCase(repository, github).execute();
 
-const education = lang === 'en' ? [
-  {
-    period: 'Aug 2026',
-    title: 'Essential TypeScript for Frontend (OOP)',
-    subtitle: 'Udemy',
-    description: '7 hours · Credential UC-e373664b-cc65-4afa-bb2e-104d31f0abab'
-  },
-  {
-    period: 'Dec 2023',
-    title: 'TypeScript: Complete Guide',
-    subtitle: 'Udemy',
-    description: '9 hours · Credential UC-0ba668f1-86ed-48b2-a9bf-21b590ca8b48'
-  },
-  {
-    period: 'Oct 2023',
-    title: 'Modern JavaScript: Guide to Mastering the Language',
-    subtitle: 'Udemy',
-    description: '22.5 hours · Credential UC-658dc8a7-af20-425f-8216-21430122827e'
-  },
-  {
-    period: '2019',
-    title: 'UX/UI Design Certification',
-    subtitle: 'Interaction Design Foundation',
-    description: 'Specialization in user-centered design and advanced prototyping.'
-  },
-  {
-    period: '2002 — 2008',
-    title: 'Bachelor in Graphic Design',
-    subtitle: 'UNICA - Cecilio Acosta Catholic University',
-    description: 'Completed degree. Comprehensive training in visual communication, color theory, and editorial design.'
-  },
-  {
-    period: 'Jul 2000 — Aug 2002',
-    title: 'Incomplete university studies — Computer Engineering',
-    subtitle: 'URBE — Rafael Belloso Chacín University',
-    description: 'Six semesters completed. 42 of 102 courses passed. Degree not completed.'
-  }
-] : [
-  {
-    period: 'Ago 2026',
-    title: 'TypeScript curso Esencial para el Frontend (Incluye POO)',
-    subtitle: 'Udemy',
-    description: '7 horas · Credencial UC-e373664b-cc65-4afa-bb2e-104d31f0abab'
-  },
-  {
-    period: 'Dic 2023',
-    title: 'TypeScript: Tu completa guía y manual de mano',
-    subtitle: 'Udemy',
-    description: '9 horas · Credencial UC-0ba668f1-86ed-48b2-a9bf-21b590ca8b48'
-  },
-  {
-    period: 'Oct 2023',
-    title: 'JavaScript Moderno: Guía para dominar el lenguaje',
-    subtitle: 'Udemy',
-    description: '22,5 horas · Credencial UC-658dc8a7-af20-425f-8216-21430122827e'
-  },
-  {
-    period: '2019',
-    title: 'Certificación en Diseño UX/UI',
-    subtitle: 'Interaction Design Foundation',
-    description: 'Especialización en diseño centrado en el usuario y prototipado avanzado.'
-  },
-  {
-    period: '2002 — 2008',
-    title: 'Licenciatura en Diseño Gráfico',
-    subtitle: 'UNICA - Universidad Católica Cecilio Acosta',
-    description: 'Carrera culminada. Formación integral en comunicación visual, teoría del color y diseño editorial.'
-  },
-  {
-    period: 'Jul 2000 — Ago 2002',
-    title: 'Estudios universitarios incompletos — Ingeniería en Computación',
-    subtitle: 'URBE — Universidad Rafael Belloso Chacín',
-    description: 'Seis semestres cursados. 42 de 102 materias aprobadas. Carrera no finalizada.'
-  }
-];
+const education = await repository.loadEducation();
 
-const technicalSkills = [
-  { label: 'Frontend / UI Architecture', percentage: 100 },
-  { label: 'UX / UI Design Systems', percentage: 100 },
-  { label: `AI Tooling (Cursor, Antigravity, Claude)`, percentage: 100 },
-  { label: `Advanced Coding (POO & Functional)`, percentage: 100 },
-  { label: `Methodologies (SDD, TDD, Hexagonal)`, percentage: 100 },
-  { label: 'Backend (Express/Next.js/NestJS)', percentage: 50 },
-  { label: 'Python Development', percentage: 20 },
-];
+
 ---
 
-<BaseLayout title={`Portfolio | ${model.profile.name}`}>
-  <ScrapbookHero />
+<BaseLayout title={`${model.profile.name} | ${model.profile.role}`} description={model.profile.summary}>
+  <ScrapbookHero profile={model.profile} lang={lang} />
 
-  <main class="mx-auto max-w-7xl px-4 pb-24 md:px-8">
-    <div class="grid gap-12 lg:grid-cols-[40%_60%] lg:items-start pt-12">
+  <div class="portfolio-main mx-auto max-w-7xl px-4 pb-24 md:px-8">
+    <div class="grid gap-12 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:items-start pt-12">
       
       <!-- Left Column: Visuals & Secondary Info -->
       <aside class="contents lg:block lg:space-y-16">
@@ -162,9 +79,9 @@ const technicalSkills = [
         
         <!-- Hello Section -->
         <section id="hello" class="gsap-reveal gsap-reveal-right order-2">
-          <h1 class="text-6xl font-bold text-white leading-tight" style="font-family: 'Playfair Display', serif;">
-            {lang === 'es' ? '¡ Hola !' : 'Hello !'}
-          </h1>
+          <h2 class="text-3xl md:text-4xl font-bold text-white leading-tight" style="font-family: 'Playfair Display', serif;">
+            {t('profile.title')}
+          </h2>
           <p class="mt-8 text-xl text-slate-300 leading-relaxed max-w-2xl">
             {model.profile.summary}
           </p>
@@ -191,7 +108,8 @@ const technicalSkills = [
               period: exp.period,
               title: exp.company,
               subtitle: exp.role,
-              description: exp.summary
+              description: exp.summary,
+              impact: exp.impact
             }))} 
           />
         </section>
@@ -206,8 +124,11 @@ const technicalSkills = [
           </div>
           
           <div class="grid gap-x-12 gap-y-8 sm:grid-cols-2 reveal-stagger">
-            {technicalSkills.map(skill => (
-              <SkillBar label={skill.label} percentage={skill.percentage} />
+            {model.skills.map(group => (
+              <div>
+                <h3 class="text-xl font-semibold text-white">{group.title}</h3>
+                <p class="mt-3 text-base leading-relaxed text-slate-300">{group.items.join(' · ')}</p>
+              </div>
             ))}
           </div>
         </section>
@@ -254,8 +175,12 @@ const technicalSkills = [
         </a>
       </div>
     </section>
-  </main>
+  </div>
 </BaseLayout>
+
+<style>
+  .portfolio-main { overflow-x: clip; }
+</style>
 
 <script>
   import gsap from "gsap";
@@ -264,6 +189,7 @@ const technicalSkills = [
   gsap.registerPlugin(ScrollTrigger);
 
   function initGlobalReveals() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const reveals = document.querySelectorAll('.gsap-reveal');
     reveals.forEach(element => {
       // Configuramos el estado inicial antes de que GSAP lo tome para evitar FOUC

@@ -1,10 +1,12 @@
-import type { ContactChannel } from '../domain/contact-channel';
-import type { Experience } from '../domain/experience';
-import type { Profile } from '../domain/profile';
-import type { Project } from '../domain/project';
-import type { SkillGroup } from '../domain/skill-group';
+import type { Education } from '@/core/domain/education';
+import type { ContactChannel } from '@/core/domain/contact-channel';
+import type { Experience } from '@/core/domain/experience';
+import type { Profile } from '@/core/domain/profile';
+import type { Project } from '@/core/domain/project';
+import type { SkillGroup } from '@/core/domain/skill-group';
 
 export interface PortfolioRepository {
+  loadEducation(): Promise<Education[]>;
   loadProfile(): Promise<Profile>;
   loadExperiences(): Promise<Experience[]>;
   loadSkillGroups(): Promise<SkillGroup[]>;

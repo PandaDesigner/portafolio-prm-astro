@@ -1,20 +1,50 @@
-import { ContactChannel } from '../domain/contact-channel';
-import { Experience } from '../domain/experience';
-import { Profile } from '../domain/profile';
-import { Project } from '../domain/project';
-import { SkillGroup } from '../domain/skill-group';
-import type { PortfolioRepository } from '../application/portfolio-repository';
+import { loadEducation } from '@/core/infrastructure/education-data';
+import { ContactChannel } from '@/core/domain/contact-channel';
+import { Experience } from '@/core/domain/experience';
+import { Profile } from '@/core/domain/profile';
+import { Project } from '@/core/domain/project';
+import { SkillGroup } from '@/core/domain/skill-group';
+import type { PortfolioRepository } from '@/core/application/portfolio-repository';
+
+
+interface RawExperience {
+  company: string;
+  role_es: string;
+  role_en: string;
+  period_es: string;
+  period_en: string;
+  summary_es: string;
+  summary_en: string;
+  highlights_es: string[];
+  highlights_en: string[];
+  endYear: number;
+  endMonth: number;
+  startYear: number;
+  startMonth: number;
+}
+
+interface RawProject {
+  name: string;
+  desc_es: string;
+  desc_en: string;
+  url: string;
+  tags: string[];
+}
 
 export class LocalPortfolioRepository implements PortfolioRepository {
   constructor(private lang: 'es' | 'en' = 'es') {}
+
+  async loadEducation() {
+    return loadEducation(this.lang);
+  }
 
   async loadProfile() {
     if (this.lang === 'en') {
       return new Profile(
         'Pedro Fernández',
-        'Frontend & Mobile Developer | React · Next.js · TypeScript · React Native | UX/UI | Playwright | Clean Architecture',
-        'Frontend and mobile developer with UX/UI and digital graphic design experience.',
-        'Frontend developer with 5+ years of experience, 8+ years in UX/UI, and 15+ years in digital graphic design. I build accessible, user-centered web and mobile products with React, Next.js, Astro, React Native, and TypeScript.',
+        'Full-Stack Developer | Frontend · Java Backend · Harness Engineering',
+        'Frontend-focused full-stack developer with Java backend, UX/UI and digital design experience.',
+        "Full-stack developer with a frontend focus and 6+ years of software development experience. Builds web and mobile products with Angular, React, Next.js and Ionic, complemented by Java and Spring Boot backend work at Efigen and Epsilon Software Solutions. Experienced in REST APIs, Docker and AI-assisted development using TDD, SDD and API contracts.",
         'Bello, Antioquia, Colombia · Remote',
         [
           new ContactChannel('prfmaetre@gmail.com', 'mailto:prfmaetre@gmail.com', 'email'),
@@ -27,9 +57,9 @@ export class LocalPortfolioRepository implements PortfolioRepository {
 
     return new Profile(
       'Pedro Fernández',
-      'Frontend & Mobile Developer | React · Next.js · TypeScript · React Native | UX/UI | Playwright | Clean Architecture',
-      'Desarrollador frontend y móvil con experiencia en UX/UI y diseño gráfico digital.',
-      'Desarrollador frontend con más de 5 años de experiencia, más de 8 años en UX/UI y más de 15 años en diseño gráfico digital. Creo productos web y móviles accesibles y centrados en el usuario con React, Next.js, Astro, React Native y TypeScript.',
+      'Desarrollador Fullstack | Frontend · Backend Java · Harness Engineering',
+      'Desarrollador fullstack con foco frontend y experiencia en backend Java, UX/UI y diseño digital.',
+      "Desarrollador fullstack con foco frontend y más de 6 años de experiencia en desarrollo de software. Construye productos web y móviles con Angular, React, Next.js e Ionic, complementados con backend Java y Spring Boot en Efigen y Epsilon Software Solutions. Experiencia con APIs REST, Docker y desarrollo asistido por IA mediante TDD, SDD y contratos de API.",
       'Bello, Antioquia, Colombia · Remote',
       [
         new ContactChannel('prfmaetre@gmail.com', 'mailto:prfmaetre@gmail.com', 'email'),
@@ -41,63 +71,122 @@ export class LocalPortfolioRepository implements PortfolioRepository {
   }
 
   async loadExperiences() {
-    const experiences = [
+    const experiences: RawExperience[] = [
       {
-        company: 'Vanguard Vision AI',
-        role_es: 'Desarrollador de front-end',
-        role_en: 'Frontend Developer',
-        period_es: 'Jul 2025 — Jul 2026',
-        period_en: 'Jul 2025 — Jul 2026',
-        summary_es: 'Desarrollo de aplicaciones web fullstack con Next.js y backend integrado, priorizando interfaces complejas y lógica reutilizable.',
-        summary_en: 'Development of fullstack web applications with Next.js and integrated backend, prioritizing complex interfaces and reusable logic.',
-        highlights_es: ['Next.js con backend integrado', 'React + React Native / Expo', 'Testing unitario e integración con Jest'],
-        highlights_en: ['Next.js with integrated backend', 'React + React Native / Expo', 'Unit and integration testing with Jest'],
+            "company": "Vanguard Vision AI",
+            "role_es": "Desarrollo Fullstack | Frontend, Mobile e IA",
+            "role_en": "Full-Stack Development | Frontend, Mobile & AI",
+            "period_es": "Jul 2025 – Jul 2026",
+            "period_en": "Jul 2025 – Jul 2026",
+            "summary_es": "Desarrollo de aplicaciones web y móviles híbridas escalables con Angular 17+, Ionic y TypeScript, con foco en rendimiento y mantenibilidad.",
+            "summary_en": "Developed scalable web and hybrid mobile applications with Angular 17+, Ionic and TypeScript, focused on performance and maintainability.",
+            "highlights_es": [
+                  "Desarrollo e integración de APIs REST con TypeScript y uso de Docker en los flujos de desarrollo.",
+                  "Aplicación de TDD y SDD con contratos de API en OpenSpec; uso de Claude Code, Codex, OpenCode y Pi para scaffolding, generación de pruebas y refactorización."
+            ],
+            "highlights_en": [
+                  "Developed and integrated REST APIs using TypeScript and used Docker in development workflows.",
+                  "Applied TDD and SDD practices with OpenSpec API contracts; used Claude Code, Codex, OpenCode and Pi for scaffolding, test generation and refactoring."
+            ],
+            "endYear": 2026,
+            "endMonth": 7,
+            "startYear": 2025,
+            "startMonth": 7
       },
       {
-        company: 'Mercado Libre',
-        role_es: 'Frontend Developer',
-        role_en: 'Frontend Developer',
-        period_es: 'May 2024 — May 2025',
-        period_en: 'May 2024 — May 2025',
-        summary_es: 'Desarrollo de features frontend en una plataforma de alto tráfico con TypeScript, Redux y enfoque en robustez.',
-        summary_en: 'Development of frontend features in a high-traffic platform with TypeScript, Redux, and a focus on robustness.',
-        highlights_es: ['TypeScript en flujos críticos', 'Redux para estado global', 'Jest para prevenir regresiones'],
-        highlights_en: ['TypeScript in critical flows', 'Redux for global state', 'Jest to prevent regressions'],
+            "company": "Mercado Libre",
+            "role_es": "Ingeniero Frontend",
+            "role_en": "Frontend Engineer",
+            "period_es": "May 2024 – May 2025",
+            "period_en": "May 2024 – May 2025",
+            "summary_es": "Desarrollo de interfaces de e-commerce de alto tráfico y optimización de Core Web Vitals para mejorar el rendimiento frontend.",
+            "summary_en": "Developed high-traffic e-commerce interfaces and optimized Core Web Vitals to improve frontend performance.",
+            "highlights_es": [
+                  "Participación en el equipo de Mercado Play, construyendo experiencias de streaming y video en un entorno de despliegue continuo."
+            ],
+            "highlights_en": [
+                  "Contributed to the Mercado Play team, building streaming and video experiences in a continuous-deployment environment."
+            ],
+            "endYear": 2025,
+            "endMonth": 5,
+            "startYear": 2024,
+            "startMonth": 5
       },
       {
-        company: 'Xcala',
-        role_es: 'Diseñador UX/UI',
-        role_en: 'UX/UI Designer',
-        period_es: 'Oct 2022 — Jun 2025',
-        period_en: 'Oct 2022 — Jun 2025',
-        summary_es: 'Diseño y desarrollo de interfaces responsivas con React y TypeScript, con foco en dashboards y visualización de datos.',
-        summary_en: 'Design and development of responsive interfaces with React and TypeScript, focused on dashboards and data visualization.',
-        highlights_es: ['Dashboards con Chart.js', 'Colaboración con diseño y producto', 'React Hooks y TypeScript'],
-        highlights_en: ['Dashboards with Chart.js', 'Collaboration with design and product', 'React Hooks and TypeScript'],
+            "company": "Efigen Renewable Energy",
+            "role_es": "Desarrollador Web y UX/UI | Desarrollo Fullstack",
+            "role_en": "Web Developer & UX/UI | Full-Stack Development",
+            "period_es": "Jul 2022 – Oct 2023",
+            "period_en": "Jul 2022 – Oct 2023",
+            "summary_es": "Desarrollo de funcionalidades backend con Java y Spring Boot y APIs REST como parte de soluciones web fullstack.",
+            "summary_en": "Developed Java and Spring Boot backend functionality and REST APIs as part of full-stack web solutions.",
+            "highlights_es": [
+                  "Trabajo con bases de datos y Docker junto con componentes frontend reutilizables, conectando requerimientos de negocio con la entrega técnica."
+            ],
+            "highlights_en": [
+                  "Worked with databases and Docker alongside reusable frontend components, connecting business requirements with technical delivery."
+            ],
+            "endYear": 2023,
+            "endMonth": 10,
+            "startYear": 2022,
+            "startMonth": 7
       },
       {
-        company: 'SirBuho',
-        role_es: 'Desarrollador web',
-        role_en: 'Web Developer',
-        period_es: 'Abr 2021 — Jun 2022',
-        period_en: 'Apr 2021 — Jun 2022',
-        summary_es: 'Mantenimiento y desarrollo de sitios web con PHP y WordPress, incluyendo plugins personalizados y páginas a medida.',
-        summary_en: 'Website maintenance and development with PHP and WordPress, including custom plugins and bespoke pages.',
-        highlights_es: ['PHP y WordPress', 'Plugins personalizados y páginas a medida', 'Figma y skeletons de iOS'],
-        highlights_en: ['PHP and WordPress', 'Custom plugins and bespoke pages', 'Figma and iOS skeletons'],
+            "company": "Xcala",
+            "role_es": "Desarrollador Frontend y UX/UI",
+            "role_en": "Frontend Developer & UX/UI",
+            "period_es": "Ene 2021 – Jul 2023",
+            "period_en": "Jan 2021 – Jul 2023",
+            "summary_es": "Diseño y desarrollo de flujos transaccionales y de onboarding para productos fintech y de mercados alternativos, combinando diseño visual en Figma con implementaciones seguras en React.js.",
+            "summary_en": "Designed and developed transactional and onboarding flows for Fintech and alternative market products, bridging visual design (Figma) with secure React.js implementations.",
+            "highlights_es": [
+                  "Equilibrio entre seguridad bancaria e interfaces fluidas, aplicando Atomic Design en equipos Agile Scrum."
+            ],
+            "highlights_en": [
+                  "Balanced banking security with frictionless user interfaces, applying Atomic Design principles within Agile Scrum teams."
+            ],
+            "endYear": 2023,
+            "endMonth": 7,
+            "startYear": 2021,
+            "startMonth": 1
       },
       {
-        company: 'Efigen Renewable Energy',
-        role_es: 'Frontend Developer',
-        role_en: 'Frontend Developer',
-        period_es: 'Jul 2022 — Oct 2023',
-        period_en: 'Jul 2022 — Oct 2023',
-        summary_es: 'Desarrollo de interfaces web priorizando rendimiento y consistencia en componentes visuales y reportes.',
-        summary_en: 'Development of web interfaces prioritizing performance and consistency in visual components and reports.',
-        highlights_es: ['Chart.js para visualización', 'Integración con WordPress y Elementor', 'Responsive first'],
-        highlights_en: ['Chart.js for visualization', 'WordPress and Elementor integration', 'Responsive first'],
+            "company": "SirBuho",
+            "role_es": "Desarrollador Web",
+            "role_en": "Web Developer",
+            "period_es": "2020 – 2021",
+            "period_en": "2020 – 2021",
+            "summary_es": "Desarrollo y mantenimiento de sitios web con PHP y WordPress, incluidos plugins personalizados y páginas a medida.",
+            "summary_en": "Developed and maintained PHP and WordPress websites, including custom plugins and bespoke pages.",
+            "highlights_es": [],
+            "highlights_en": [],
+            "endYear": 2021,
+            "endMonth": 0,
+            "startYear": 2020,
+            "startMonth": 0
       },
-    ];
+      {
+            "company": "Epsilon Software Solutions",
+            "role_es": "Full-Stack Developer",
+            "role_en": "Full-Stack Developer",
+            "period_es": "2018 – 2020",
+            "period_en": "2018 – 2020",
+            "summary_es": "Desarrollo de soluciones web fullstack con Java y Spring Boot, incluyendo APIs REST e integraciones frontend.",
+            "summary_en": "Developed full-stack web solutions with Java and Spring Boot, including REST APIs and frontend integrations.",
+            "highlights_es": [
+                  "Trabajo con bases de datos y Docker como parte del desarrollo backend y la entrega de aplicaciones."
+            ],
+            "highlights_en": [
+                  "Worked with databases and Docker as part of backend development and application delivery."
+            ],
+            "endYear": 2020,
+            "endMonth": 0,
+            "startYear": 2018,
+            "startMonth": 0
+      }
+];
+
+    experiences.sort((a, b) => b.endYear - a.endYear || b.endMonth - a.endMonth || b.startYear - a.startYear || b.startMonth - a.startMonth);
 
     return experiences.map(exp => new Experience(
       exp.company,
@@ -109,20 +198,11 @@ export class LocalPortfolioRepository implements PortfolioRepository {
   }
 
   async loadSkillGroups() {
-    if (this.lang === 'en') {
-      return [
-        new SkillGroup('Frontend & Mobile', ['React', 'Next.js', 'React Native', 'Expo', 'TypeScript', 'JavaScript']),
-        new SkillGroup('UI/UX & Design', ['Figma', 'Adobe XD', 'Photoshop', 'Illustrator', 'Tailwind CSS', 'MUI']),
-        new SkillGroup('Architecture & State', ['Redux', 'Zustand', 'React Query', 'Node', 'NestJS', 'WordPress']),
-        new SkillGroup('Professional Practice', ['Design Systems', 'Atomic Design', 'Testing', 'Remote work', 'Communication']),
-      ];
-    }
-
     return [
-      new SkillGroup('Frontend & Mobile', ['React', 'Next.js', 'React Native', 'Expo', 'TypeScript', 'JavaScript']),
-      new SkillGroup('UI/UX & Design', ['Figma', 'Adobe XD', 'Photoshop', 'Illustrator', 'Tailwind CSS', 'MUI']),
-      new SkillGroup('Arquitectura & Estado', ['Redux', 'Zustand', 'React Query', 'Node', 'NestJS', 'WordPress']),
-      new SkillGroup('Práctica profesional', ['Design Systems', 'Atomic Design', 'Testing', 'Remote work', 'Communication']),
+      new SkillGroup(this.lang === 'en' ? "Full-Stack Core" : "Fullstack", ["Java", "Spring Boot", "REST APIs", "TypeScript", "JavaScript", "Angular 17+", "React", "Next.js", "Ionic", "React Native", "Node.js", "NestJS", "Express", "Python / FastAPI"]),
+      new SkillGroup(this.lang === 'en' ? "Architecture and Quality" : "Arquitectura y Calidad", ["DDD", "Hexagonal Architecture", "TDD", "SDD", "OpenSpec", "OpenAPI", "BFF architecture"]),
+      new SkillGroup(this.lang === 'en' ? "Development Tools" : "Herramientas de Desarrollo", ["Docker", "Git", "Claude Code", "Codex", "OpenCode", "Pi", "AI-assisted workflows"]),
+      new SkillGroup(this.lang === 'en' ? 'UX/UI and Design' : 'UX/UI y Diseño', ['Figma', 'Atomic Design', 'Design Systems']),
     ];
   }
 
@@ -145,7 +225,7 @@ export class LocalPortfolioRepository implements PortfolioRepository {
   }
 
   async loadCuratedProjects() {
-    const projects = [
+    const projects: RawProject[] = [
       {
         name: 'Calculator JS Vanilla',
         desc_es: 'Calculadora funcional construida con JavaScript vanilla, HTML y CSS. Implementa operaciones matemáticas básicas con manejo de estado.',

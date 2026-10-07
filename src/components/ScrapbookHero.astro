@@ -1,25 +1,32 @@
 ---
-/**
- * ScrapbookHero Component
- * Full-width image header with a torn edge transition.
- */
+import { Image } from 'astro:assets';
+import type { Profile } from '@/core/domain/profile';
+import { useTranslations } from '@/i18n/utils';
+interface Props { profile: Profile; lang: 'es' | 'en'; }
+const { profile, lang } = Astro.props;
+const t = useTranslations(lang);
 ---
-
-<header class="relative w-full overflow-hidden bg-transparent">
-  <div class="relative w-full flex justify-center">
-    <img 
-      src="/top-hero.png" 
-      alt="Portfolio Scrapbook Header" 
-      class="w-full h-auto block object-contain"
-      width="1920"
-      height="600"
-    />
+<header class="career-hero">
+  <div class="career-hero-content">
+    <div>
+      <p class="career-eyebrow">{t('hero.portfolio')}</p>
+      <h1>{profile.name}</h1>
+      <p class="career-role">{profile.role}</p>
+      <p class="career-summary">{profile.headline}</p>
+      <a href="#experience">{t('nav.experience')} <span aria-hidden="true">↗</span></a>
+    </div>
+    <Image src="/pedro-profile-portrait.jpg" alt={profile.name} width="900" height="900" fetchpriority="high" />
   </div>
 </header>
-
 <style>
-  header {
-    /* Ensure the hero doesn't have weird spacing at the bottom */
-    font-size: 0;
-  }
+  .career-hero { background: #f5efe5; color: #101725; padding: 7rem 1.5rem 4rem; border-bottom: 1px solid #ded5c7; }
+  .career-hero-content { max-width: 72rem; margin: auto; display: grid; gap: 2.5rem; align-items: center; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
+  .career-eyebrow { font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; }
+  h1 { font-size: clamp(2.7rem, 5vw, 5.5rem); line-height: 1.08; margin: 1rem 0 1.5rem; }
+  .career-role { font-weight: 700; font-size: 1.2rem; line-height: 1.7; }
+  .career-summary { max-width: 35rem; line-height: 1.75; margin: 1.25rem 0; }
+  a { display: inline-block; font-weight: 700; text-decoration: underline; text-underline-offset: .3rem; }
+  a:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
+  img { display: block; width: 100%; height: auto; max-width: 23rem; margin: auto; border-radius: 50%; }
+  @media (max-width: 767px) { .career-hero { padding: 6rem 1.25rem 2.5rem; } .career-hero-content { grid-template-columns: minmax(0, 1fr); } img { max-width: 14rem; } }
 </style>

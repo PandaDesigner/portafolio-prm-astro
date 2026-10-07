@@ -5,7 +5,7 @@ import SiteFooter from '../components/SiteFooter.astro';
 import '../styles/global.css';
 
 const {
-  title = 'Pedro Fernández · Frontend Engineer / UX/UI Designer',
+  title = 'Pedro Fernández · Full-Stack Developer',
   description = 'Portfolio profesional moderno con foco en UX, performance y arquitectura escalable.',
   noHeader = false,
   noFooter = false,
@@ -13,9 +13,7 @@ const {
 
 const path = Astro.url.pathname;
 const htmlLang: 'es' | 'en' = path.startsWith('/en') ? 'en' : 'es';
-const descLocalized = htmlLang === 'en'
-  ? 'Modern professional portfolio focused on UX, performance, and scalable architecture.'
-  : description;
+const descLocalized = description;
 ---
 
 <!doctype html>
@@ -32,12 +30,13 @@ const descLocalized = htmlLang === 'en'
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
 
+    <noscript><link rel="stylesheet" href="/no-motion.css" /></noscript>
     <title>{title}</title>
     <ClientRouter fallback="swap" />
   </head>
   <body>
     <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-white focus:px-4 focus:py-2 focus:text-slate-950">
-      Saltar al contenido
+      {htmlLang === 'en' ? 'Skip to content' : 'Saltar al contenido'}
     </a>
     <div class="relative min-h-screen">
       {noHeader ? null : <SiteHeader />}
