@@ -2,31 +2,69 @@
 import { Image } from 'astro:assets';
 import type { Profile } from '@/core/domain/profile';
 import { useTranslations } from '@/i18n/utils';
-interface Props { profile: Profile; lang: 'es' | 'en'; }
+
+interface Props {
+  profile: Profile;
+  lang: 'es' | 'en';
+}
+
 const { profile, lang } = Astro.props;
 const t = useTranslations(lang);
 ---
-<header class="career-hero">
-  <div class="career-hero-content">
-    <div>
-      <p class="career-eyebrow">{t('hero.portfolio')}</p>
-      <h1>{profile.name}</h1>
-      <p class="career-role">{profile.role}</p>
-      <p class="career-summary">{profile.headline}</p>
-      <a href="#experience">{t('nav.experience')} <span aria-hidden="true">↗</span></a>
-    </div>
-    <Image src="/pedro-profile-portrait.jpg" alt={profile.name} width="900" height="900" fetchpriority="high" />
+
+<header class="scrapbook-hero">
+  <h1 class="sr-only">{profile.name} — {profile.role}</h1>
+  <div class="hero-artwork">
+    <Image
+      src="/top-hero.png"
+      alt=""
+      width={1448}
+      height={947}
+      fetchpriority="high"
+      class="original-artwork"
+    />
+    <!-- Preserve the original artwork; show the edited paper only behind the old subtitle. -->
+    <Image
+      src="/top-hero-subtitle-paper.png"
+      alt=""
+      width={1551}
+      height={1014}
+      class="subtitle-paper"
+      aria-hidden="true"
+    />
+    <p class="hero-subtitle">{t('hero.role')}</p>
   </div>
 </header>
+
 <style>
-  .career-hero { background: #f5efe5; color: #101725; padding: 7rem 1.5rem 4rem; border-bottom: 1px solid #ded5c7; }
-  .career-hero-content { max-width: 72rem; margin: auto; display: grid; gap: 2.5rem; align-items: center; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); }
-  .career-eyebrow { font-size: .8rem; letter-spacing: .18em; text-transform: uppercase; }
-  h1 { font-size: clamp(2.7rem, 5vw, 5.5rem); line-height: 1.08; margin: 1rem 0 1.5rem; }
-  .career-role { font-weight: 700; font-size: 1.2rem; line-height: 1.7; }
-  .career-summary { max-width: 35rem; line-height: 1.75; margin: 1.25rem 0; }
-  a { display: inline-block; font-weight: 700; text-decoration: underline; text-underline-offset: .3rem; }
-  a:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
-  img { display: block; width: 100%; height: auto; max-width: 23rem; margin: auto; border-radius: 50%; }
-  @media (max-width: 767px) { .career-hero { padding: 6rem 1.25rem 2.5rem; } .career-hero-content { grid-template-columns: minmax(0, 1fr); } img { max-width: 14rem; } }
+  .scrapbook-hero {
+    width: 100%;
+    overflow: hidden;
+    background: transparent;
+    container-type: inline-size;
+  }
+
+  .hero-artwork { position: relative; width: 100%; }
+  .original-artwork { display: block; width: 100%; height: auto; }
+  .subtitle-paper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    clip-path: inset(35% 39% 59% 29%);
+    pointer-events: none;
+  }
+  .hero-subtitle {
+    position: absolute;
+    top: 36.1%;
+    left: 28%;
+    width: 34%;
+    margin: 0;
+    text-align: center;
+    color: #171717;
+    font-family: Arial, sans-serif;
+    font-size: 1.22cqw;
+    line-height: 1.25;
+    white-space: nowrap;
+  }
 </style>
