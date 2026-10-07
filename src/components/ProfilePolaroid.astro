@@ -24,6 +24,7 @@
   gsap.registerPlugin(ScrollTrigger);
 
   function initPolaroid() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const container = document.querySelector('.profile-polaroid-container');
     if (!container) return;
     

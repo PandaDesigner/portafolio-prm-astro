@@ -1,4 +1,6 @@
 ---
+import { getLangFromUrl, useTranslations } from '@/i18n/utils';
+const t = useTranslations(getLangFromUrl(Astro.url));
 /**
  * SoftwareGrid Component
  * Grid of software icons/badges with GSAP stagger animations.
@@ -34,7 +36,7 @@ function getIconForTech(tech: string) {
 
 <div class="mt-12 software-grid-container">
   <h2 class="text-3xl font-bold text-white mb-8" style="font-family: 'Playfair Display', serif;">
-    Software & Stack
+    {t('nav.software')}
   </h2>
 
   <div class="grid gap-6 sm:grid-cols-2">
@@ -67,6 +69,7 @@ function getIconForTech(tech: string) {
   gsap.registerPlugin(ScrollTrigger);
 
   function initSoftwareGrid() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const container = document.querySelector('.software-grid-container');
     if (!container) return;
 

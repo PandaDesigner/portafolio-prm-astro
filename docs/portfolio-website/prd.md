@@ -2,7 +2,7 @@
 
 ## 1. Objetivo
 
-Crear una web personal premium para posicionar el perfil como Frontend Engineer / UX/UI Designer, mostrar experiencia real y convertir visitas en contactos concretos.
+Crear una web personal premium para posicionar el perfil como Full-Stack Developer con foco frontend, backend Java y Harness Engineering, mostrar experiencia real y convertir visitas en contactos concretos.
 
 ## 2. Usuario objetivo
 
@@ -50,7 +50,7 @@ Premium, técnica, confiable, moderna.
 ### Hero
 - Nombre, rol y propuesta diferencial
 - CTA principal y secundario
-- Resumen con 8+ años de experiencia
+- Resumen con más de 6 años de experiencia sin duplicar empleos simultáneos
 - Animación de entrada
 
 ### About
